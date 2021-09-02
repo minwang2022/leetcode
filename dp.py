@@ -177,3 +177,62 @@ def dfs(self, s, max_len, dict, memo):
     print("memo", memo)
     print("end partitions =", partitions )
     return partitions
+
+
+829 · Word Pattern II
+# Description
+# Given a pattern and a string str, find if str follows the same pattern.
+
+# Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty substring in str.(i.e if a corresponds to s, then b cannot correspond to s. For example, given pattern = "ab", str = "ss", return false.)
+
+# You may assume both pattern and str contains only lowercase letters.
+
+# Example
+# Example 1
+
+# Input:
+# pattern = "abab"
+# str = "redblueredblue"
+# Output: true
+# Explanation: "a"->"red","b"->"blue"
+# Example 2
+
+# Input:
+# pattern = "aaaa"
+# str = "asdasdasdasd"
+# Output: true
+# Explanation: "a"->"asd"
+# Example 3
+
+# Input:
+# pattern = "aabb"
+# str = "xyzabcxzyabc"
+# Output: false
+
+def wordPatternMatch(self, pattern, str):
+    # write your code here
+    if not pattern or not str:
+        return False
+    return self.isMatch(pattern, str, {}, set())
+
+def isMatch(self, pattern, string, mapping, used):
+    if not pattern:
+        return not string 
+    char = pattern[0]
+    if char in mapping:
+        word = mapping[char]
+        if not string.startswith(word):
+            return False 
+        return self.isMatch(pattern[1:], string[len(word):], mapping, used)
+    
+    for i in range(len(string)):
+        word = string[:i + 1]
+        if word in used:
+            continue
+        mapping[char] = word
+        used.add(word)
+        if self.isMatch(pattern[1:], string[i + 1:], mapping, used):
+            return True 
+        del mapping[char]
+        used.remove(word)
+    return False
