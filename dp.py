@@ -179,7 +179,7 @@ def dfs(self, s, max_len, dict, memo):
     return partitions
 
 
-829 · Word Pattern II
+829 Word Pattern II
 # Description
 # Given a pattern and a string str, find if str follows the same pattern.
 
@@ -236,3 +236,4 @@ def isMatch(self, pattern, string, mapping, used):
         del mapping[char]
         used.remove(word)
     return False
+
