@@ -237,3 +237,27 @@ def isMatch(self, pattern, string, mapping, used):
         used.remove(word)
     return False
 
+
+
+def rollTheString(s, roll):
+    # Write your code here
+    if not roll:
+        return s 
+    increment = [0] * len(s)
+    a_to_z = [chr(i) for i in range(97, 97 + 26)]
+    for num in roll:
+        for i in range(num):
+            increment[i] += 1
+    result = ""
+    for i in range(len(s)):
+        index = ord(s[i]) + increment[i] - 97
+        index = index % 26
+        result += a_to_z[index]
+
+    return result
+
+
+
+merge sort counts
+merge intervals
+product sort
