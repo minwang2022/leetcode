@@ -1,6 +1,6 @@
-Dynamic Programming - Memoization 
+# Dynamic Programming - Memoization 
 
-107 · Word Break
+# 107 · Word Break
 
 # Description
 # Given a string s and a dictionary of words dict, determine if s can be broken into a space-separated sequence of one or more dictionary words.
@@ -56,7 +56,8 @@ def dfs(self, s, index, max_len, dict, memo):
     memo[index] = False
     # print(memo[index])
     return False
-683 · Word Break III
+
+# 683 · Word Break III
 # Description
 # Give a dictionary of words and a sentence with all whitespace removed, return the number of sentences you can /
 # form by inserting whitespaces to the sentence so that each word can be found in the dictionary.
@@ -117,7 +118,7 @@ def dfs(self, s, index, max_len, dict, memo):
     memo[index] = result
     return memo[index]
 
-582 · Word Break II
+# 582 · Word Break II
 
 # Description
 # Given a string s and a dictionary of words dict, add spaces in s to construct a sentence where each word is a valid dictionary word.
@@ -179,7 +180,7 @@ def dfs(self, s, max_len, dict, memo):
     return partitions
 
 
-829 Word Pattern II
+# 829 Word Pattern II
 # Description
 # Given a pattern and a string str, find if str follows the same pattern.
 
@@ -255,9 +256,3 @@ def rollTheString(s, roll):
         result += a_to_z[index]
 
     return result
-
-
-
-merge sort counts
-merge intervals
-product sort
