@@ -221,3 +221,136 @@ def woodCut(self, L, k):
 
 def cut_counts(self, L, woodLength):
     return sum([wood // woodLength for wood in L])
+
+# 458 · Last Position of Target
+# Description
+# Find the last position of a target number in a sorted array. Return -1 if target does not exist.
+
+# Example 1:
+# Input: nums = [1,2,2,4,5,5], target = 2
+# Output: 2
+
+# Example 2:
+# Input: nums = [1,2,2,4,5,5], target = 6
+# Output: -1
+def lastPosition(self, nums, target):
+    # write your code here
+    if not nums:
+        return -1
+    start, end = 0, len(nums) - 1
+    while start + 1 < end:
+        mid = (start + end) // 2
+        if nums[mid] > target:
+            end = mid 
+        else:
+            start = mid 
+    if nums[end] == target:
+        return end
+    if nums[start] == target:
+        return start     
+    return -1 
+
+# 14 · First Position of Target
+# Description
+# Given a sorted array (ascending order) and a target number, find the first index of this number in O(log n)O(logn) time complexity.
+# If the target number does not exist in the array, return -1.
+
+# Example 1:
+# Input:
+# tuple = [1,4,4,5,7,7,8,9,9,10]
+# target = 1
+# Output:
+# 0
+# Explanation:
+# The first index of 1 is 0.
+def binarySearch(self, nums, target):
+    # write your code here
+    if not nums:
+        return -1
+    start, end = 0, len(nums) - 1
+    while start + 1 < end:
+        mid = (start + end) // 2
+        if nums[mid] < target:
+            start = mid 
+        else:
+            end = mid 
+    if nums[start] == target:
+        return start
+    if nums[end] == target:
+        return end     
+    return -1 
+
+# 447 · Search in a Big Sorted Array
+# Description
+# Given a big sorted array with non-negative integers sorted by non-decreasing order. The array is so big so that you can not get 
+# the length of the whole array directly, and you can only access the kth number by ArrayReader.get(k) (or ArrayReader->get(k) for C++).
+# Find the first index of a target number. Your algorithm should be in O(log k), where k is the first index of the target number.
+# Return -1, if the number doesn't exist in the array.
+# If you accessed an inaccessible index (outside of the array), ArrayReader.get will return 2,147,483,647.
+
+# Example 1:
+# Input: [1, 3, 6, 9, 21, ...], target = 3
+# Output: 1
+
+# Example 2:
+# Input: [1, 3, 6, 9, 21, ...], target = 4
+# Output: -1
+
+def searchBigSortedArray(self, reader, target):
+    # write your code here
+    nums = 1
+    while reader.get(nums - 1) < target:
+        nums = nums * 2
+    
+    start, end = 0, nums - 1
+    while start + 1 < end:
+        mid = (start + end) // 2
+        if reader.get(mid) < target:
+            start = mid
+        else:
+            end = mid 
+    if reader.get(start) == target:
+        return start
+    if reader.get(end) == target:
+        return end 
+    return - 1
+
+# 62 · Search in Rotated Sorted Array
+# Description
+# Suppose a sorted array is rotated at some pivot unknown to you beforehand.
+# (i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+# You are given a target value to search. If found in the array return its index, otherwise return -1.
+# You may assume no duplicate exists in the array.
+
+# Example 1:
+# Input:
+# array = [4, 5, 1, 2, 3]
+# target = 1
+# Output:
+# 2
+# Explanation:
+# 1 is indexed at 2 in the array.
+
+def search(self, A, target):
+    # write your code here
+    if not A:
+        return -1 
+    start, end = 0, len(A) - 1
+    while start + 1 < end:
+        mid = (start + end) // 2
+        if A[mid] > A[end]:
+            if A[start] <= target <= A[mid]:
+                end = mid
+            else:
+                start = mid
+        else:
+            if A[mid] <= target <= A[end]:
+                start = mid 
+            else:
+                end = mid
+    
+    if A[start] == target:
+        return start
+    if A[end] == target:
+        return end
+    return -1 
