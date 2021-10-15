@@ -143,3 +143,81 @@ def findMin(self, nums):
 # 1
 # Explanation:
 # Returns the index of any peak element. 6 is also correct.
+def findPeak(self, A):
+    # write your code here
+    start, end = 1, len(A) - 2 
+    while start + 1 < end:
+        mid = (start + end) // 2
+        if A[mid] < A[mid - 1]:
+            end = mid 
+        elif A[mid] < A[mid + 1]:
+            start = mid
+        else:
+            return mid
+    return end if A[start] < A[end] else start
+
+# 585 · Maximum Number in Mountain Sequence
+# Description
+# Given a mountain sequence of n integers which increase firstly and then decrease, find the mountain top(Maximum).
+# Arrays are strictly incremented, strictly decreasing
+
+# Example 1:
+# Input: nums = [1, 2, 4, 8, 6, 3] 
+# Output: 8
+
+# Example 2:
+# Input: nums = [10, 9, 8, 7], 
+# Output: 10
+
+def mountainSequence(self, nums):
+    # write your code here
+    start, end = 0, len(nums) - 1
+    while start + 1 < end:
+        mid = (start + end) // 2
+        if nums[mid] < nums[mid + 1]:
+            start = mid
+        elif nums[mid] < nums[mid - 1]:
+            end = mid 
+        else:
+            return nums[mid]
+    return nums[start] if nums[start] > nums[end] else nums[end]
+
+# 183 · Wood Cut
+# Description
+# Given n pieces of wood with length L[i] (integer array). Cut them into small pieces to guarantee you could have 
+# equal or more than k pieces with the same length. What is the longest length you can get from the n pieces of wood? 
+# Given L & k, return the maximum length of the small pieces.
+
+# The unit of length is centimeter.The length of the woods are all positive integers,you couldn't cut wood into float length.
+# If you couldn't get >= k pieces, return 0.
+
+# Example 1
+# Input:
+# L = [232, 124, 456]
+# k = 7
+# Output: 114
+# Explanation: We can cut it into 7 pieces if any piece is 114cm long, however we can't cut it into 7 pieces if any piece is 115cm long.
+
+# Example 2
+# Input:
+# L = [1, 2, 3]
+# k = 7
+# Output: 0
+# Explanation: It is obvious we can't make it.
+
+def woodCut(self, L, k):
+    # write your code here
+    if not L or sum(L) < k:
+        return 0
+    start, end = 1, min(max(L), sum(L)//k)
+    while start + 1 < end:
+        mid = (start + end) // 2
+        if self.cut_counts(L, mid) >= k:
+            start = mid
+        else:
+            end = mid 
+    
+    return end if self.cut_counts(L, end) >= k else start 
+
+def cut_counts(self, L, woodLength):
+    return sum([wood // woodLength for wood in L])
