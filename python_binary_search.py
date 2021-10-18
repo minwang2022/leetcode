@@ -1,5 +1,30 @@
 # Binary Search
 
+def sampleBinarySearchFunction(self, nums):
+    start, end = 0, len(nums) - 1
+    while start + 1 < end:
+        mid = (start + end) // 2
+        
+        # find first target
+        # if nums[mid] < target:  
+        #     start = mid 
+        # else:
+        #     end = mid 
+    # if nums[start] == target:
+    #     return start
+    # if nums[end] == target:
+    #     return end 
+
+        # find last target
+        if nums[mid] > target:  
+            end = mid 
+        else:
+            start = mid 
+    if nums[end] == target:
+        return end
+    if nums[start] == target:
+        return start     
+    return -1 
 # 457. Classical Binary Search
 # Description
 # Find any position of a target number in a sorted array. Return -1 if target does not exist.
