@@ -273,3 +273,114 @@ class Solution:
 
         return node_to_indegree
 
+# 120 · Word Ladder
+# Description
+# Given two words (start and end), and a dictionary, find the shortest transformation sequence from start to end, 
+# output the length of the sequence.
+# Transformation rule such that:
+# Only one letter can be changed at a time
+# Each intermediate word must exist in the dictionary. (Start and end words do not need to appear in the dictionary )
+# Return 0 if there is no such transformation sequence.
+# All words have the same length.
+# All words contain only lowercase alphabetic characters.
+# You may assume no duplicates in the dictionary.
+# You may assume beginWord and endWord are non-empty and are not the same.
+# len(dict) <= 5000, len(start) < 5len(dict)<=5000,len(start)<5
+
+# Example 1:
+# Input:
+# start = "a"
+# end = "c"
+# dict =["a","b","c"]
+# Output:
+# 2
+# Explanation:
+# "a"->"c"
+
+# Example 2:
+# Input:
+# start ="hit"
+# end = "cog"
+# dict =["hot","dot","dog","lot","log"]
+# Output:
+# 5
+# Explanation:
+# "hit"->"hot"->"dot"->"dog"->"cog"
+
+class Solution:
+    """
+    @param: start: a string
+    @param: end: a string
+    @param: dict: a set of string
+    @return: An integer
+    """
+    def ladderLength(self, start, end, dict):
+        # write your code here
+        dict.add(end)
+        queue, visited = collections.deque([start]), {start: 1}
+
+        while queue:
+            cur_word = queue.popleft()
+            if cur_word == end:
+                return visited[cur_word]
+            for word in self.get_words(cur_word,dict):
+                if word in visited:
+                    continue
+                queue.append(word)
+                visited[word] = visited[cur_word] + 1
+        return 0 
+
+    def get_words(self, word, dict):
+        words = []
+        for i in range(len(word)):
+            left, right = word[:i], word[i + 1:]
+            for char in "abcdefghijklmnopqrstuvwxyz":
+                if char == word[i]:
+                    continue
+
+                new_word = left + char + right 
+                if new_word in dict:
+                     words.append(new_word)
+
+        return words
+
+
+# 615 · Course Schedule
+# Description
+# There are a total of n courses you have to take, labeled from 0 to n - 1.
+# Before taking some courses, you need to take other courses. For example, to learn course 0, you need to learn course 1 first, which is expressed as [0,1].
+# Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?
+
+# Example 1:
+# Input: n = 2, prerequisites = [[1,0]] 
+# Output: true
+
+# Example 2:
+# Input: n = 2, prerequisites = [[1,0],[0,1]] 
+# Output: false
+
+class Solution:
+    """
+    @param numCourses: a total of n courses
+    @param prerequisites: a list of prerequisite pairs
+    @return: true if can finish all courses or false
+    """
+    def canFinish(self, numCourses, prerequisites):
+        # write your code here
+        edges = {i:[] for i in range(numCourses)}
+        degree = [0 for _ in range(numCourses)]
+        for after, pre in prerequisites:
+            edges[pre].append(after)
+            degree[after] += 1
+        
+        queue = collections.deque([i for i in range(numCourses) if degree[i] == 0])
+        count = 0 
+        while queue:
+            node = queue.popleft()
+            count += 1
+            for course in edges[node]:
+                degree[course] -= 1
+                if degree[course] == 0:
+                    queue.append(course)
+        
+        return count == numCourses
