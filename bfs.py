@@ -384,3 +384,47 @@ class Solution:
                     queue.append(course)
         
         return count == numCourses
+
+# 616 · Course Schedule II
+# Description
+# There are a total of n courses you have to take, labeled from 0 to n - 1.
+# Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: [0,1]
+# Given the total number of courses and a list of prerequisite pairs, return the ordering of courses you should take to finish all courses.
+# There may be multiple correct orders, you just need to return one of them. If it is impossible to finish all courses, return an empty array.
+
+# Example 1:
+# Input: n = 2, prerequisites = [[1,0]] 
+# Output: [0,1]
+
+# Example 2:
+# Input: n = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]] 
+# Output: [0,1,2,3] or [0,2,1,3]
+
+class Solution:
+    """
+    @param: numCourses: a total of n courses
+    @param: prerequisites: a list of prerequisite pairs
+    @return: the course order
+    """
+    def findOrder(self, numCourses, prerequisites):
+        # write your code here
+        edges = {i:[] for i in range(numCourses)}
+        degree = [0 for _ in range(numCourses)]
+        for course, prep in prerequisites:
+            edges[prep].append(course)
+            degree[course] += 1
+        
+        queue = collections.deque([i for i in range(numCourses) if degree[i] == 0])
+        order = []
+        while queue:
+            node = queue.popleft()
+            order.append(node)
+            for course in edges[node]:
+                degree[course] -= 1
+                if degree[course] == 0:
+                    queue.append(course)
+                   
+        if len(order) == numCourses:
+            return order
+        return []
+
