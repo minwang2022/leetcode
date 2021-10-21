@@ -607,7 +607,7 @@ class Solution:
         graph = self.build_graph(seqs)
         topo_order = self.topological_sort(graph)
         return topo_order == org
-            
+             
     def build_graph(self, seqs):
         # initialize graph
         graph = {}
@@ -659,3 +659,71 @@ class Solution:
             return topo_order
             
         return None
+
+# 598 · Zombie in Matrix
+# Description
+# Give a two-dimensional grid, each grid has a value, 2 for wall, 1 for zombie, 0 for human (numbers 0, 1, 2).
+# Zombies can turn the nearest people(up/down/left/right) into zombies every day, but can not through wall. 
+# How long will it take to turn all people into zombies? Return -1 if can not turn all people into zombies.
+
+# Example 1:
+# Input:
+# [[0,1,2,0,0],
+#  [1,0,0,2,1],
+#  [0,1,0,0,0]]
+# Output:
+# 2
+
+# Example 2:
+# Input:
+# [[0,0,0],
+#  [0,0,0],
+#  [0,0,1]]
+# Output:
+# 4
+
+DIRECTIONS = [(1, 0),(-1, 0),(0, -1), (0, 1)]
+class Solution:
+    """
+    @param grid: a 2D integer grid
+    @return: an integer
+    """
+    def zombie(self, grid):
+        # write your code here
+        if not grid:
+            return -1 
+
+        n, m = len(grid), len(grid[0])
+        zoombies_pos = []
+        for i in range(n):
+            for j in range(m):
+                if grid[i][j] == 1:
+                    zoombies_pos.append((i,j))
+
+        queue = collections.deque(zoombies_pos)
+        visited = set()
+        time = 0
+        while queue:
+            time += 1 
+            for i in range(len(queue)):
+                cur_x, cur_y = queue.popleft()
+                for d_x, d_y in DIRECTIONS:
+                    new_x, new_y = cur_x + d_x, cur_y + d_y
+                    if not self.is_valid(grid, new_x, new_y, n, m):
+                        continue 
+                    if (new_x, new_y) in visited:
+                        continue
+                    queue.append((new_x, new_y))
+                    visited.add((new_x, new_y))
+            
+
+        humans = sum(x.count(0) for x in grid)
+        if humans == len(visited):
+            return time - 1
+        return -1
+
+    def is_valid(self, grid, x, y, n, m):
+        if not (0 <= x < n and 0 <= y < m):
+            return False
+
+        return grid[x][y] == 0
