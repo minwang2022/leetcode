@@ -774,3 +774,88 @@ class Solution:
         if numOfVisited == n:
             return True
         return False
+    
+# 892 · Alien Dictionary
+# Description
+# There is a new alien language which uses the latin alphabet. However, the order among letters are unknown to you. You receive a list of non-empty words from the dictionary, where words are sorted lexicographically by the rules of this new language. Derive the order of letters in this language.
+
+# You may assume all letters are in lowercase.
+# The dictionary is invalid, if a is prefix of b and b is appear before a.
+# If the order is invalid, return an empty string.
+# There may be multiple valid order of letters, return the smallest in normal lexicographical order
+
+# Example 1:
+# Input：["wrt","wrf","er","ett","rftt"]
+# Output："wertf"
+# Explanation：
+# from "wrt"and"wrf" ,we can get 't'<'f'
+# from "wrt"and"er" ,we can get 'w'<'e'
+# from "er"and"ett" ,we can get 'r'<'t'
+# from "ett"and"rftt" ,we can get 'e'<'r'
+# So return "wertf"
+
+# Example 2:
+# Input：["z","x"]
+# Output："zx"
+# Explanation：
+# from "z" and "x"，we can get 'z' < 'x'
+# So return "zx"
+
+from heapq import heapify, heappop, heappush
+
+class Solution:
+    """
+    @param words: a list of words
+    @return: a string which is correct order
+    """
+    def alienOrder(self, words):
+        # Write your code here
+        graph = self.build_graph(words)
+        if not graph:
+            return ""
+        return self.topological_sort(graph)
+    
+    def build_graph(self, words):
+        graph = {}
+        for word in words:
+            for c in word:
+                if c not in graph:
+                    graph[c] = set()
+
+        for i in range(len(words) - 1):
+            for j in range(min(len(words[i]), len(words[i + 1]))):
+                if words[i][j] != words[i + 1][j]:
+                    graph[words[i][j]].add(words[i + 1][j])
+                    break
+                if j == min(len(words[i]), len(words[i + 1])) - 1:
+                    if len(words[i]) > len(words[i + 1]):
+                        return None
+        print("graph",graph)
+        return graph
+    
+    def get_indegree(self, graph):
+        indegree = {node: 0 for node in graph}
+        for node in graph:
+            for neighbor in graph[node]:
+                indegree[neighbor] += 1
+        
+        return indegree 
+
+    def topological_sort(self, graph):
+        indegree = self.get_indegree(graph)
+        print("indegree",indegree)
+        queue = [node for node in graph if indegree[node] == 0]
+        heapify(queue)
+
+        new_word = ""
+        while queue:
+            node = heappop(queue)
+            new_word += node 
+            for neighbor in graph[node]:
+                indegree[neighbor] -= 1
+                if indegree[neighbor] == 0:
+                    heappush(queue, neighbor)
+
+        return new_word if len(new_word) == len(graph) else ""
+
+        
