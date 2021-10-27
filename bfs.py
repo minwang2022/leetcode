@@ -858,4 +858,79 @@ class Solution:
 
         return new_word if len(new_word) == len(graph) else ""
 
+# 573 · Build Post Office II
+# Description
+# Given a 2D grid, each cell is either a wall 2, an house 1 or empty 0 (the number zero, one, two), find a place to build a post office so that the sum of the distance from the post office to all the houses is smallest.
+# Returns the sum of the minimum distances from all houses to the post office.Return -1 if it is not possible.
+
+# You cannot pass through wall and house, but can pass through empty.
+# You only build post office on an empty.
+
+# Example 1:
+# Input：[[0,1,0,0,0],[1,0,0,2,1],[0,1,0,0,0]]
+# Output：8
+# Explanation： Placing a post office at (1,1), the distance that post office to all the house sum is smallest.
+
+# Example 2:
+# Input：[[0,1,0],[1,0,1],[0,1,0]]
+# Output：4
+# Explanation： Placing a post office at (1,1), the distance that post office to all the house sum is smallest. 
+
+class Solution:
+    """
+    @param grid: a 2D grid
+    @return: An integer
+    """
+    def shortestDistance(self, grid):
+        # write your code here
+        if not grid or not grid[0]:
+            return -1
         
+        n, m = len(grid), len(grid[0])
+        dist = [[sys.maxsize for _ in range(m)] for _ in range(n)]
+        counts = [[0 for _ in range(m)] for _ in range(n)]
+        nums = 0
+        
+        for i in range(n):
+            for j in range(m):
+                if grid[i][j] == 1:
+                    self.bfs(grid, i, j, dist, counts)
+                    nums += 1
+        
+        min_dist = sys.maxsize
+        for i in range(n):
+            for j in range(m):
+                if counts[i][j] == nums and dist[i][j] < min_dist:
+                    min_dist = dist[i][j]
+        
+        return min_dist if min_dist != sys.maxsize else -1
+    
+    def bfs(self, grid, x, y, dist, counts):
+        from collections import deque
+        queue = deque([(x, y)])
+        visited = set([(x, y)])
+        level = 0
+        
+        while queue:
+            n = len(queue)
+            for _ in range(n):
+                x, y = queue.popleft()
+                if dist[x][y] == sys.maxsize:
+                    dist[x][y] = 0
+                dist[x][y] += level
+                
+                for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                    nx, ny = x + dx, y + dy
+                    if not self.is_valid(grid, nx, ny):
+                        continue
+                    if (nx, ny) in visited:
+                        continue
+                    
+                    if grid[nx][ny] == 0:
+                        counts[nx][ny] += 1
+                        queue.append((nx, ny))
+                        visited.add((nx, ny))
+            level += 1
+    
+    def is_valid(self, grid, x, y):
+        return 0 <= x < len(grid) and 0 <= y < len(grid[0])
