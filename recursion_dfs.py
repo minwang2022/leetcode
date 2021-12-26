@@ -589,3 +589,60 @@ class Solution:
             return right_max, right_node, sub_size, sub_sum 
         
         return sub_avg, root, sub_size, sub_sum
+
+# 596 · Minimum Subtree
+# Description
+# Given a binary tree, find the subtree with minimum sum. Return the root of the subtree.
+# The range of input and output data is in int.
+
+# LintCode will print the subtree which root is your return node.
+# It's guaranteed that there is only one subtree with minimum sum and the given binary tree is not an empty tree.
+
+# Example
+# Example 1:
+
+# Input:
+# {1,-5,2,1,2,-4,-5}
+# Output:1
+# Explanation:
+# The tree is look like this:
+#      1
+#    /   \
+#  -5     2
+#  / \   /  \
+# 1   2 -4  -5 
+# The sum of whole tree is minimum, so return the root.
+
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+"""
+
+class Solution:
+    """
+    @param root: the root of binary tree
+    @return: the root of the minimum subtree
+    """
+    def findSubtree(self, root):
+        # write your code here
+        minimum, sub_tree, root_sum = self.helper(root)
+        return sub_tree
+    
+    def helper(self, root):
+        if not root:
+            return sys.maxsize, None, 0
+        
+        left_min, left_node, left_sum = self.helper(root.left)
+        right_min, right_node, right_sum = self.helper(root.right)
+
+        root_sum = left_sum + right_sum + root.val
+        
+        if left_min == min(left_min, right_min, root_sum):
+            return left_min, left_node, root_sum
+        if right_min == min(left_min, right_min, root_sum):
+            return right_min, right_node, root_sum
+        
+        return root_sum, root, root_sum
