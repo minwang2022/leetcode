@@ -494,3 +494,62 @@ class Solution:
             return True 
         
         return abs(a[start] - target) <= abs(a[end] - target)
+
+# 437 · Copy Books
+# Description
+# Given n books and the i-th book has pages[i] pages. There are k persons to copy these books.
+# These books list in a row and each person can claim a continous range of books. For example, one copier can copy the books from i-th to j-th continously, but he can not copy the 1st book, 2nd book and 4th book (without 3rd book).
+# They start copying books at the same time and they all cost 1 minute to copy 1 page of a book. What's the best strategy to assign books so that the slowest copier can finish at earliest time?
+# Return the shortest time that the slowest copier spends.
+# The sum of book pages is less than or equal to 2147483647
+# Example 1:
+# Input: pages = [3, 2, 4], k = 2
+# Output: 5
+# Explanation: 
+#     First person spends 5 minutes to copy book 1 and book 2.
+#     Second person spends 4 minutes to copy book 3.
+# Example 2:
+# Input: pages = [3, 2, 4], k = 3
+# Output: 4
+# Explanation: Each person copies one of the books.
+
+from typing import (
+    List,
+)
+
+class Solution:
+    """
+    @param pages: an array of integers
+    @param k: An integer
+    @return: an integer
+    """
+    def copy_books(self, pages: List[int], k: int) -> int:
+        # write your code here
+        if not pages:
+            return 0
+
+        start, end = max(pages), sum(pages)
+
+        while start + 1 < end:
+            mid = (start + end) // 2
+            if self.is_least_people(pages, k, mid):
+                end = mid 
+            else:
+                start = mid 
+        
+        if self.is_least_people(pages, k, start):
+            return start 
+        
+        return end 
+    
+    def is_least_people(self, pages, k, num):
+        count = 1
+        cur_pages = 0
+        for page in pages:
+            if cur_pages + page <= num:
+                cur_pages += page
+            else:
+                cur_pages = page 
+                count += 1 
+
+        return count <= k 
