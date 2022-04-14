@@ -379,3 +379,56 @@ def search(self, A, target):
     if A[end] == target:
         return end
     return -1 
+
+
+# 14 · First Position of Target
+# Description
+# Given a sorted array (ascending order) and a target number, find the first index of this number in O(log n)O(logn) time complexity.
+# If the target number does not exist in the array, return -1.
+
+# Example 1:
+# Input:
+# tuple = [1,4,4,5,7,7,8,9,9,10]
+# target = 1
+# Output:
+# 0
+# Explanation:
+# The first index of 1 is 0.
+
+# Example 2:
+# Input:
+# tuple = [1, 2, 3, 3, 4, 5, 10]
+# target = 3
+# Output:
+# 2
+# Explanation:
+# The first index of 3 is 2.
+
+from typing import (
+    List,
+)
+
+class Solution:
+    """
+    @param nums: The integer array.
+    @param target: Target to find.
+    @return: The first position of target. Position starts from 0.
+    """
+    def binary_search(self, nums: List[int], target: int) -> int:
+        # write your code here
+        if not nums:
+            return -1
+        start, end = 0, len(nums) -1
+        
+        while start + 1 < end:
+            mid = (start + end ) // 2
+            if nums[mid] < target:
+                start = mid
+            else:
+                end = mid
+        
+        if nums[start] == target:
+            return start
+        if nums[end] == target:
+            return end
+        return -1 

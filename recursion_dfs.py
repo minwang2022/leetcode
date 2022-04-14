@@ -599,7 +599,9 @@ class Solution:
 # It's guaranteed that there is only one subtree with minimum sum and the given binary tree is not an empty tree.
 
 # Example
-# Example 1:
+# Example 1: 
+
+
 
 # Input:
 # {1,-5,2,1,2,-4,-5}
@@ -646,3 +648,4 @@ class Solution:
             return right_min, right_node, root_sum
         
         return root_sum, root, root_sum
+
