@@ -432,3 +432,65 @@ class Solution:
         if nums[end] == target:
             return end
         return -1 
+
+
+# 460 · Find K Closest Elements
+# Description
+# Given target, a non-negative integer k and an integer array A sorted in ascending order, find the k closest numbers to target in A, sorted in ascending order by the difference between the number and target. Otherwise, sorted in ascending order by number if the difference is same.
+# The value k is a non-negative integer and will no more than the length of the sorted array.
+# Length of the given array is positive and will not exceed 10^410 
+# Absolute value of elements in the array will not exceed 10^410 
+# Example
+# Example 1:
+
+# Input: A = [1, 2, 3], target = 2, k = 3
+# Output: [2, 1, 3]
+# Example 2:
+
+# Input: A = [1, 4, 6, 8], target = 3, k = 3
+# Output: [4, 1, 6]
+
+from typing import (
+    List,
+)
+
+class Solution:
+    """
+    @param a: an integer array
+    @param target: An integer
+    @param k: An integer
+    @return: an integer array
+    """
+    def k_closest_numbers(self, a: List[int], target: int, k: int) -> List[int]:
+        # write your code here
+        res = []
+        if not a:
+            return res
+        
+        start, end = 0, len(a) -1
+
+        while start + 1 < end:
+            mid = (start + end) // 2
+            if a[mid] < target:
+                start = mid 
+            else:
+                end = mid 
+
+        for _ in range(k):
+
+            if self.is_left(start, end, target, a):
+                res.append(a[start])
+                start -= 1
+            else:
+                res.append(a[end])
+                end += 1
+
+        return res 
+
+    def is_left(self, start, end, target, a):
+        if start < 0:
+            return False 
+        if end >= len(a):
+            return True 
+        
+        return abs(a[start] - target) <= abs(a[end] - target)
