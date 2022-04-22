@@ -93,3 +93,50 @@ class Solution:
         single_chars = len(visited)
 
         return n - single_chars + 1 if single_chars else n - single_chars
+
+# 16. 3Sum Closest
+# Given an integer array nums of length n and an integer target, find three integers in nums such that the sum is closest to target.
+
+# Return the sum of the three integers.
+
+# You may assume that each input would have exactly one solution.
+
+ 
+
+# Example 1:
+
+# Input: nums = [-1,2,1,-4], target = 1
+# Output: 2
+# Explanation: The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
+# Example 2:
+
+# Input: nums = [0,0,0], target = 1
+# Output: 0
+
+class Solution:
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        if not nums:
+            return False
+        n = len(nums)
+        nums.sort()
+        dif = float('inf')
+        res = 0
+        for i in range(n - 2):
+            left, right = i + 1, n - 1
+            while left < right:
+                cur_sum = nums[i] + nums[left] + nums[right]
+                print(cur_sum)
+                if cur_sum == target:
+                    return cur_sum
+                
+                if cur_sum > target:
+                    right -= 1
+                elif cur_sum < target:
+                    left += 1
+                
+                if abs(cur_sum - target) < dif:
+                    dif = abs(cur_sum - target)
+                    res = cur_sum
+                
+        return res 
+
