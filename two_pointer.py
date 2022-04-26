@@ -380,7 +380,7 @@ class Solution:
                 nums1[m + n -1] = nums2[n -1]
                 n -= 1
             
-# 143 · Sort Colors II QUICK-SORT O(LOG K)
+# 143 · Sort Colors II QUICK-SORT O(NLOG K)
 # Description
 # Given an array of n objects with k different colors (numbered from 1 to k), sort them so that objects of the same color are adjacent, with the colors in the order 1, 2, ... k.
 
@@ -529,3 +529,39 @@ class Solution:
         
         return dummy.next
     
+# 164. Maximum Gap
+# Given an integer array nums, return the maximum difference between two successive elements in its sorted form. If the array contains less than two elements, return 0.
+
+# You must write an algorithm that runs in linear time and uses linear extra space.
+
+# Example 1:
+
+# Input: nums = [3,6,9,1]
+# Output: 3
+# Explanation: The sorted form of the array is [1,3,6,9], either (3,6) or (6,9) has the maximum difference 3.
+# Example 2:
+
+# Input: nums = [10]
+# Output: 0
+# Explanation: The array contains less than 2 elements, therefore return 0.
+
+class Solution:
+    def maximumGap(self, nums: List[int]) -> int:
+        if len(nums) < 2: return 0
+        hi, lo, ans = max(nums), min(nums), 0
+        bsize = (hi - lo) // (len(nums) - 1) or 1
+    
+        buckets = [[] for _ in range(((hi - lo) // bsize) + 1)]
+        for n in nums:
+            print(n)
+            buckets[(n - lo) // bsize].append(n)
+        currhi = 0
+      
+        for b in buckets:
+          
+            if not len(b): continue
+            prevhi, currlo = currhi or b[0], b[0]
+            for n in b: 
+                currhi, currlo = max(currhi, n), min(currlo, n)
+            ans = max(ans, currlo - prevhi)
+        return ans
