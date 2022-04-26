@@ -380,7 +380,7 @@ class Solution:
                 nums1[m + n -1] = nums2[n -1]
                 n -= 1
             
-# 143 · Sort Colors II
+# 143 · Sort Colors II QUICK-SORT O(LOG K)
 # Description
 # Given an array of n objects with k different colors (numbered from 1 to k), sort them so that objects of the same color are adjacent, with the colors in the order 1, 2, ... k.
 
@@ -436,7 +436,7 @@ class Solution:
         self.sort(colors, color_from, color, index_from, right)
         self.sort(colors, color + 1, color_to, left, index_to)
 
-# 147. Insertion Sort List
+# 147. Insertion Sort List INSERTION-SORT O(N) -> O(N^2) Time Complexity
 # Given the head of a singly linked list, sort the list using insertion sort, and return the sorted list's head.
 
 # The steps of the insertion sort algorithm:
@@ -479,3 +479,53 @@ class Solution:
             cur = pre.next
         
         return dummy.next
+
+# 148. Sort List  MERGE-SORT
+# Given the head of a linked list, return the list after sorting it in ascending order.
+
+# Example 1:
+# Input: head = [4,2,1,3]
+# Output: [1,2,3,4]
+# Example 2:
+# Input: head = [-1,5,3,4,0]
+# Output: [-1,0,3,4,5]
+# Example 3:
+# Input: head = []
+# Output: []
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if not head or not head.next:
+            return head 
+        
+        slow, fast = head, head.next
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+        temp = slow.next
+        slow.next = None
+        l, r = self.sortList(head), self.sortList(temp)
+        return self.mergeSort(l, r)
+        
+    def mergeSort(self, l, r):
+        dummy = cur = ListNode(0)
+        
+        while l and r:
+            if l.val <= r.val:
+                cur.next = l
+                l = l.next
+            
+            else:
+                cur.next = r
+                r = r.next
+            cur = cur.next 
+            
+        cur.next = l or r
+        
+        return dummy.next
+    
