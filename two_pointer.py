@@ -660,3 +660,64 @@ class Solution:
                 for i in range(len(component)):
                     lst[component[i]] = chars[i]
         return ''.join(lst)
+
+
+# 425 · Letter Combinations of a Phone Number
+# Description
+# Given a digit string excluded 0 and 1, return all possible letter combinations that the number could represent.
+
+# A mapping of digit to letters (just like on the telephone buttons) is given below.
+# Although the answer above is in lexicographical order, your answer could be in any order you want.
+
+# Example
+# Example 1:
+
+# Input: "23"
+# Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"]
+# Explanation: 
+# '2' could be 'a', 'b' or 'c'
+# '3' could be 'd', 'e' or 'f'
+# Example 2:
+
+# Input: "5"
+# Output: ["j", "k", "l"]
+
+from typing import (
+    List,
+)
+KEYBOARD = {
+            '2': 'abc',
+            '3': 'def',
+            '4': 'ghi',
+            '5': 'jkl',
+            '6': 'mno',
+            '7': 'pqrs',
+            '8': 'tuv',
+            '9': 'wxyz'
+        }
+
+class Solution:
+    """
+    @param digits: A digital string
+    @return: all possible letter combinations
+             we will sort your return value in output
+    """
+
+    def letter_combinations(self, digits: str) -> List[str]:
+        # write your code here
+        if not digits:
+            return []
+        
+        combinations = []
+
+        self.dfs(digits, 0, [], combinations)
+        return combinations
+    
+    def dfs(self, digits, idx, path, combinations):
+        
+        if idx == len(digits):
+            combinations.append("".join(path))
+            return 
+
+        for char in KEYBOARD[digits[idx]]:
+            self.dfs(digits, idx + 1, path + [char], combinations)
