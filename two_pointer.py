@@ -595,3 +595,68 @@ class Solution:
                 target = num
                 count = 1
         return target
+
+# 1202. Smallest String With Swaps
+# ou are given a string s, and an array of pairs of indices in the string pairs where pairs[i] = [a, b] indicates 2 indices(0-indexed) of the string.
+
+# You can swap the characters at any pair of indices in the given pairs any number of times.
+
+# Return the lexicographically smallest string that s can be changed to after using the swaps.
+# Example 1:
+
+# Input: s = "dcab", pairs = [[0,3],[1,2]]
+# Output: "bacd"
+# Explaination: 
+# Swap s[0] and s[3], s = "bcad"
+# Swap s[1] and s[2], s = "bacd"
+# Example 2:
+
+# Input: s = "dcab", pairs = [[0,3],[1,2],[0,2]]
+# Output: "abcd"
+# Explaination: 
+# Swap s[0] and s[3], s = "bcad"
+# Swap s[0] and s[2], s = "acbd"
+# Swap s[1] and s[2], s = "abcd"
+# Example 3:
+
+# Input: s = "cba", pairs = [[0,1],[1,2]]
+# Output: "abc"
+# Explaination: 
+# Swap s[0] and s[1], s = "bca"
+# Swap s[1] and s[2], s = "bac"
+# Swap s[0] and s[1], s = "abc"
+
+class Solution:
+    def smallestStringWithSwaps(self, s: str, pairs: List[List[int]]) -> str:
+        def dfs(i):
+            visited[i] = True
+            component.append(i)
+            for j in adj_lst[i]:
+                if not visited[j]:
+                    dfs(j)
+            
+        n = len(s)
+        adj_lst = [[] for _ in range(n)]
+        print(adj_lst)
+        for i, j in pairs:
+            print(pairs, i , j)
+            adj_lst[i].append(j)
+            adj_lst[j].append(i)
+            
+        print(adj_lst)
+        visited = [False for _ in range(n)]
+        lst = list(s)
+        print(lst)
+        for i in range(n):
+            # print(visited)
+            if not visited[i]:
+                component = []
+                dfs(i)
+                print(component)
+                component.sort()
+                print(component)
+                chars = [lst[k] for k in component]
+                chars.sort()
+                for i in range(len(component)):
+                    lst[component[i]] = chars[i]
+        return ''.join(lst)
