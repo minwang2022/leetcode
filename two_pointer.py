@@ -726,7 +726,7 @@ class Solution:
 # Given a list of non-negative integers nums, arrange them such that they form the largest number and return it.
 
 # Since the result may be very large, so you need to return a string instead of an integer.
-z
+
 # Example 1:
 
 # Input: nums = [10,2]
@@ -762,5 +762,43 @@ class Solution:
         return low  
 
 
+    def compare(self,x, y):
+        return str(x) + str(y) > str(y) + str(x)
+
+# merge-sort O(nlogn), O(n) space O(n)
+class Solution:
+    def largestNumber(self, nums: List[int]) -> str:
+        
+        
+        res = self.mergeSort(nums, 0, len(nums)-1)
+       
+        return str(int("".join(map(str,res))))
+        
+    def mergeSort(self,nums,l, r):
+        if l > r:
+            return 
+        if l == r:
+            return [nums[l]]
+        
+        mid = (l + r) // 2
+        
+        left = self.mergeSort(nums, l, mid)
+        right = self.mergeSort(nums, mid + 1, r)
+        return self.merge(left, right)
+    def merge(self, left, right):
+        res, n, m = [], 0, 0
+        
+        while n < len(left) and m < len(right):
+            if self.compare(left[n], right[m]):
+                res.append(left[n])
+                n += 1
+            else:
+                res.append(right[m])
+                m += 1
+
+        res.extend(left[n:] or right[m:])
+        
+        return res 
+    
     def compare(self,x, y):
         return str(x) + str(y) > str(y) + str(x)
