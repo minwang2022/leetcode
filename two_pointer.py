@@ -802,3 +802,80 @@ class Solution:
     
     def compare(self,x, y):
         return str(x) + str(y) > str(y) + str(x)
+
+# 215. Kth Largest Element in an Array
+
+# Given an integer array nums and an integer k, return the kth largest element in the array.
+
+# Note that it is the kth largest element in the sorted order, not the kth distinct element.
+
+# Example 1:
+
+# Input: nums = [3,2,1,5,6,4], k = 2
+# Output: 5
+# Example 2:
+
+# Input: nums = [3,2,3,1,2,4,5,5,6], k = 4
+# Output: 4
+
+#quick-sort O(nlogn) time worst cast O(n^2), O(n) space 
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        n, m = 0, len(nums) -1 
+        self.quickSort(nums, n, m)
+        return nums[-k]
+    
+    def quickSort(self, nums, start, end):
+        if start >= end:
+            return 
+        
+        left, right = start, end 
+        pivot = nums[(start + end) //2]
+        
+        while left <= right:
+            while left <= right and nums[left] < pivot:
+                left += 1
+            while left <= right and nums[right] > pivot:
+                right -= 1
+            
+            if left <= right:
+                nums[left], nums[right] = nums[right], nums[left]
+                left += 1
+                right -= 1
+        
+        self.quickSort(nums, start, right)
+        self.quickSort(nums, left, end)
+
+#merge-sort O(nlogn) time, O(n) space
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        n, m = 0, len(nums) -1
+        sortedNums = self.mergeSort(nums, n, m)
+        return sortedNums[-k]
+    
+    def mergeSort(self, nums, start, end):
+        
+        if start > end:
+            return 
+        if start == end:
+            return [nums[start]]
+        
+        mid = (start + end ) // 2 
+        left = self.mergeSort(nums, start, mid)
+        right = self.mergeSort(nums, mid + 1,end)
+        print(left,"right", right)
+        return self.merge(left, right)
+        
+    def merge(self, left, right):
+        l, r, res = 0, 0, []
+        while l < len(left) and r < len(right):
+            if left[l] <= right[r]:
+                res.append(left[l])
+                l += 1
+            else:
+                res.append(right[r])
+                r += 1
+        res.extend(left[l:] or right[r:])
+        return res
+
+        
