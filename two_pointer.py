@@ -722,3 +722,45 @@ class Solution:
         for char in KEYBOARD[digits[idx]]:
             self.dfs(digits, idx + 1, path + [char], combinations)
 
+# 179. Largest Number quick-sort O(nlogn) worstcase o(n^2) time, o(n) space
+# Given a list of non-negative integers nums, arrange them such that they form the largest number and return it.
+
+# Since the result may be very large, so you need to return a string instead of an integer.
+z
+# Example 1:
+
+# Input: nums = [10,2]
+# Output: "210"
+# Example 2:
+
+# Input: nums = [3,30,34,5,9]
+# Output: "9534330"
+
+class Solution:
+    def largestNumber(self, nums: List[int]) -> str:
+        
+        self.quickSort(nums, 0, len(nums)-1)
+        print(nums)
+        return str(int("".join(map(str, nums)))) 
+
+    def quickSort(self, nums, l, r):
+        if l >= r:
+            return 
+        pos = self.partition(nums, l, r)
+        print(pos)
+        self.quickSort(nums, l, pos-1)
+        self.quickSort(nums, pos+1, r)
+
+    def partition(self, nums, l, r):
+        low = l
+        while l < r:
+            if self.compare(nums[l], nums[r]):
+                nums[l], nums[low] = nums[low], nums[l]
+                low += 1
+            l += 1
+        nums[low], nums[r] = nums[r], nums[low]
+        return low  
+
+
+    def compare(self,x, y):
+        return str(x) + str(y) > str(y) + str(x)
