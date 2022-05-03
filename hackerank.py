@@ -24,3 +24,21 @@ def fetchItemsToDisplay(items, sortParameter, sortOrder, itemsPerPage, pageNumbe
         idx += 1
         count += 1
     return res
+
+
+#order check 
+# Complete the 'countStudents' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts INTEGER_ARRAY height as parameter.
+#
+
+def countStudents(height):
+    # Write your code here
+    sorted_height = sorted(height)
+    count = 0 
+    for i in range(len(height)):
+        if height[i] != sorted_height[i]:
+            count += 1
+    
+    return count
