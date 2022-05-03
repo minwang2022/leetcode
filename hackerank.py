@@ -42,3 +42,15 @@ def countStudents(height):
             count += 1
     
     return count
+
+#array game
+
+# Complete the 'countMoves' function below.
+#
+# The function is expected to return a LONG_INTEGER.
+# The function accepts INTEGER_ARRAY numbers as parameter.
+#
+
+def countMoves(numbers):
+    # Write your code here
+    return sum(numbers) - (len(numbers) * min(numbers))
