@@ -937,9 +937,44 @@ class Solution:
                 return True 
         
         return False
-        
+
 #O(n) => set creation takes o(len(s)) => o(n) time complexity
 class Solution:
     def containsDuplicate(self, nums: List[int]) -> bool:
       
         return len(nums) != len(set(nums))
+
+# 229. Majority Element II
+# Given an integer array of size n, find all elements that appear more than ⌊ n/3 ⌋ times.
+
+# Example 1:
+
+# Input: nums = [3,2,3]
+# Output: [3]
+# Example 2:
+
+# Input: nums = [1]
+# Output: [1]
+# Example 3:
+# Input: nums = [1,2]
+# Output: [1,2]
+
+import collections
+
+
+class Solution:
+    def majorityElement(self, nums: List[int]) -> List[int]:
+        count = collections.defaultdict(int)
+        
+        for num in nums:
+            
+            count[num] += 1
+        
+        res = []
+        majority = len(nums) // 3 
+        for key in count:
+            if count[key] > majority:
+                res.append(key)
+        
+        return res 
+            
