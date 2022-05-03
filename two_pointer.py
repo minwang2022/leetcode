@@ -1006,4 +1006,32 @@ class Solution:
                 ctr -= collections.Counter(set(ctr))
                
         return [n for n in ctr if nums.count(n) > len(nums)/3]
+
+# 242. Valid Anagram
+# Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+
+# An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+# Example 1:
+
+# Input: s = "anagram", t = "nagaram"
+# Output: true
+# Example 2:
+
+# Input: s = "rat", t = "car"
+# Output: false
+
+#O(n) time, O(k) space
+import collections 
+
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        dic = collections.defaultdict(int)
         
+        for char in s:
+            dic[char] += 1
+        
+        for char in t:
+            dic[char] -= 1
+           
+        return all(x == 0 for x in dic.values())
