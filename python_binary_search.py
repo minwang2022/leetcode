@@ -21,6 +21,7 @@ def sampleBinarySearchFunction(self, nums):
         else:
             start = mid 
     if nums[end] == target:
+        
         return end
     if nums[start] == target:
         return start     
