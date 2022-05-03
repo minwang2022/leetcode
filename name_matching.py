@@ -222,31 +222,38 @@ def nameMatch(knownAliases, name):
 def compare(alias, rec):
     
     n, m = len(alias), len(rec)
+#no middle name cases so that we do not need to care about initial;  alias has first name and middile name; rec only has firstname  
+
     if n == 2 and m < 2:     
         return alias[0] == rec[0] or alias[1] == rec[0]
+    
+#no middle name cases;  rec has first name and middile name; alias only has firstname
+
     if m == 2 and n < 2:
         return alias[0] == rec[0] or rec[1] == alias[0]
+    
+#no middle name cases;  both alias and rec only has firstname
+
     if m < 2 and n < 2:
         return alias[0] == rec[0]
     
     alias_fname, alias_mname = alias[0], alias[1]
     rec_fname, rec_mname = rec[0], rec[1]
     
-    #both alias and record is full name  
-    if alias == rec or (alias_fname == rec_mname and alias_mname == rec_fname) or (rec_fname == alias_mname and rec_mname == alias_fname): 
+#both alias and record is full name  
+    if alias == rec or (alias_fname == rec_mname and alias_mname == rec_fname)\
+        or (rec_fname == alias_mname and rec_mname == alias_fname): 
         return True 
     
     # when middle name is a initial []
     if len(alias_mname) == 1:
         return fullNameCompare(alias_fname, alias_mname, rec_fname, rec_mname)
     
-    if len(alias_mname) == 1:
+    if len(rec_mname) == 1:
         return fullNameCompare(rec_fname, rec_mname, alias_fname, alias_mname)
-        return (alias_fname == rec_fname and alias_mname == rec_mname[0])or\
-        (alias_fname == rec_mname and alias_mname == rec_fname[0])
         
     return False 
 
 def fullNameCompare(firstFname, middleWithInitial, secondFname, middleFull):
     return (firstFname == secondFname and middleWithInitial == middleFull[0])or\
-        (firstFname == secondFname and middleWithInitial == middleFull[0])
+        (firstFname == middleFull and middleWithInitial == secondFname[0])
