@@ -1135,4 +1135,29 @@ class Solution:
         for i, num in enumerate(sorted(nums, reverse=True)):
             if i < len(nums) // 2:  nums[2*i+1] = num
             else:   nums[len(nums)%2-2*(len(nums)-i)] = num
+    
+# 347. Top K Frequent Elements
+# Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.
+
+# Example 1:
+
+# Input: nums = [1,1,1,2,2,3], k = 2
+# Output: [1,2]
+# Example 2:
+
+# Input: nums = [1], k = 1
+# Output: [1]
+
+#O(N) TIME, O(K) SPACE
+
+import collections
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         
+        counter = collections.Counter()
+        for num in nums:
+            counter[num] += 1
+        
+        res = counter.most_common(k)
+        
+        return [x for x, y in res]
