@@ -1126,3 +1126,13 @@ class MedianFinder:
 
 # Input: nums = [1,3,2,2,3,1]
 # Output: [2,3,1,3,1,2]
+
+class Solution:
+    def wiggleSort(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        for i, num in enumerate(sorted(nums, reverse=True)):
+            if i < len(nums) // 2:  nums[2*i+1] = num
+            else:   nums[len(nums)%2-2*(len(nums)-i)] = num
+        
