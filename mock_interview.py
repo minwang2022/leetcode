@@ -3,3 +3,37 @@
 #ex. [1,1,1,1,2,2,2,2,2,3,3,3,3] remove 3, and 1 , return 2 
 
 
+
+# In a town, there are n people labeled from 1 to n. There is a rumor that one of these people is secretly the town judge.
+# If the town judge exists, then:
+# The town judge trusts nobody.
+# Everybody (except for the town judge) trusts the town judge.
+# There is exactly one person that satisfies properties 1 and 2.
+# You are given an array trust where trust[i] = [ai, bi] representing that the person labeled ai trusts the person labeled bi.
+# Return the label of the town judge if the town judge exists and can be identified, or return -1 otherwise.
+# # N - 1 people trust len n - 1
+# n =2 [[4,1]] => 1
+# [[1, 3],[2, 5],[3,5],[4,5], [1,5]] => 5
+#O(N) TIME, O(N) SPACE
+
+def findJudge(n, array):
+	trusted = {} #trusted_people 
+	Trusting = {} # not_judge
+	for i in range(n -1):
+		cur = array[i][0]
+		trust = array[i][1]
+		if  trust in trusted:
+			Trusted[trust] += 1
+		else:
+			Trusted[trust] = 1
+		if  cur in Trusting:
+			Trusting[cur] += 1
+		else:
+			Trusting[cur] = 1
+	judge = max(trusted, key= trusted.get())		#max(trusted, key = lambda x:)
+	if judge in trusting and trusted[judge] != n - 1:
+		Return -1
+	return judge
+
+	
+

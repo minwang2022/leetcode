@@ -1263,14 +1263,12 @@ class Solution:
         nums.sort()
         
         dp=[ [i] for i in nums]
-        print(nums)
-        print("fir", dp)
+     
         for i in range(n):
             for j in range(i):
-                print("i, j", i, j, nums[i], nums[j])
-                print("sec", dp)
+                
                 if nums[i]%nums[j]==0 and len(dp[j])+1 > len(dp[i]):
                     
                     dp[i] = dp[j]+[nums[i]]
-                print("thr", dp)
+    
         return max(dp, key=len)
