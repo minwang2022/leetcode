@@ -19,7 +19,7 @@
 def findJudge(n, array):
 	trusted = {} #trusted_people 
 	Trusting = {} # not_judge
-	for i in range(n -1):
+	for i in range(len(array)):
 		cur = array[i][0]
 		trust = array[i][1]
 		if  trust in trusted:
