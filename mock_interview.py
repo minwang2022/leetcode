@@ -36,4 +36,29 @@ def findJudge(n, array):
 	return judge
 
 	
+# characters in the most inner layer, parentheses are vaild
+# ex: "a((b))" => "b"
+
+def charsInString(string):
+    if not "(" in string:
+        return string
+    front_bracket, cur_layers = 0, 0
+    visited = {}
+    for char in string:
+        if char == "(":
+            front_bracket += 1
+            cur_layers = front_bracket
+            continue 
+        if char == ")" and front_bracket != 0:
+            cur_layers -= 1
+            front_bracket -= 1
+            continue
+        if cur_layers in visited:
+            visited[cur_layers].append(char)
+        else:
+            visited[cur_layers] = [char]
+    
+    max_layer = max(visited)
+    return visited[max_layer]
+
 
