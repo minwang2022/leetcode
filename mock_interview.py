@@ -167,3 +167,24 @@ class Solution:
                 stack.append(node.child)
                 node.child = None
         return head
+
+# recursive
+    # if not head: return None
+    
+    #     def travel(node):
+    #         while node:
+    #             q = node.next
+    #             if not q: tail = node
+    #             if node.child:
+    #                 node.next = node.child
+    #                 node.child.prev = node
+    #                 t = travel(node.child)
+    #                 if q:
+    #                     q.prev = t
+    #                 t.next= q
+    #                 node.child = None
+    #             node = node.next
+    #         return tail
+        
+    #     travel(head)
+    #     return head
