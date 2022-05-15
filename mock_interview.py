@@ -306,3 +306,17 @@ class Solution:
                 ctr -= collections.Counter(set(ctr))
                
         return [n for n in ctr if nums.count(n) > len(nums)/3]
+
+#finding occurence of target string in a given string 
+#ex: string = "abcbcbcaawe"
+# target = "cbc"
+# output = 2 
+
+def countStr(string, target):
+    n = len(target)
+    count = 0 
+    for i in range(len(string) - n + 1):
+        if string[i: i + n] == target:
+            count += 1
+    return count
+    
