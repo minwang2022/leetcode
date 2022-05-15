@@ -320,3 +320,53 @@ def countStr(string, target):
             count += 1
     return count
     
+# 23. Merge k Sorted Lists
+
+import heapq
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+#         if not lists:
+#             return None
+#         if len(lists) == 1:
+#             return lists[0]
+#         mid = len(lists) // 2
+#         l, r = self.mergeKLists(lists[:mid]), self.mergeKLists(lists[mid:])
+#         print(l, r)
+#         return self.merge(l, r)
+    
+#     def merge(self, l, r):
+#         dummy = p = ListNode()
+#         while l and r:
+#             if l.val < r.val:
+#                 p.next = l
+#                 l = l.next
+#             else:
+#                 p.next = r
+#                 r = r.next
+#             p = p.next
+#         p.next = l or r
+#         return dummy.next
+
+            h = []
+            head = tail = ListNode(0)
+            for i in range(len(lists)):
+                if lists[i]:
+                    heapq.heappush(h, (lists[i].val, i, lists[i]))
+
+            while h:                                                        #[(1),(1),(2)]
+                node = heapq.heappop(h)                                     # (1)
+                node = node[2]                                              # [1,4,5]
+                tail.next = node                                            #tail  node(0) -> 1
+                tail = tail.next                                            # tail = 1 
+                if node.next:                                               # 0 ->1 -> 4 -> 5   next = 4
+                    i+=1                                                  # 3
+                    # print(i)
+                    heapq.heappush(h, (node.next.val, i,  node.next))        #
+                # print(h)
+
+            return head.next
