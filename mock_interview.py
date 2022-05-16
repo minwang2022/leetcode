@@ -370,3 +370,73 @@ class Solution:
                 # print(h)
 
             return head.next
+
+# 78. Subsets
+# Given an integer array nums of unique elements, return all possible subsets (the power set).
+
+# The solution set must not contain duplicate subsets. Return the solution in any order.
+
+# Example 1:
+
+# Input: nums = [1,2,3]
+# Output: [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+# Example 2:
+
+# Input: nums = [0]
+# Output: [[],[0]]
+
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+#         res = [[]]
+#         for i in range(len(nums)):
+#             res += [num + [nums[i]] for num in res]
+        
+#         return res
+        
+#         res = []
+        
+#         self.backTrack(nums, res, [])
+#         return res 
+    
+#     def backTrack(self, nums, res, path):
+        
+#         res.append(path)
+#         print("nums",nums, path)
+#         print(res)
+#         for i in range(len(nums)):
+#             print(i, nums)
+#             self.backTrack(nums[i +1 :], res, path + [nums[i]])
+
+        res = []
+        self.dfs(sorted(nums), 0, [], res)
+        return res
+
+    def dfs(self, nums, index, path, res):
+        res.append(path)
+        print("path", path)
+        print("res", res)
+        for i in range(index, len(nums)):
+            print(i, path)
+            self.dfs(nums, i+1, path+[nums[i]], res)
+
+#         def backtrack(first = 0, curr = []):
+#             # if the combination is done
+#             if len(curr) == k:  
+#                 print(curr)
+#                 output.append(curr[:])
+#                 print(output)
+#                 return
+#             for i in range(first, n):
+#                 print(i)
+#                 # add nums[i] into the current combination
+#                 curr.append(nums[i])
+#                 # use next integers to complete the combination
+#                 backtrack(i + 1, curr)
+#                 # backtrack
+#                 curr.pop()
+        
+#         output = []
+#         n = len(nums)
+#         for k in range(n + 1):
+#             backtrack()
+#         return output
