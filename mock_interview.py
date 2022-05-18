@@ -548,3 +548,43 @@ class Solution:
                     break
                                         
         return inv   
+
+
+# 1169 · Permutation in String
+# Description
+# Given two strings s1 and s2, write a function to return true if s2 contains the permutation of s1. In other words, one of the first string's permutations is the substring of the second string.
+
+# The input strings only contain lower case letters.
+# The length of both given strings is in range [1, 10,000].
+# Example
+# Example 1:
+
+# Input:s1 = "ab" s2 = "eidbaooo"
+# Output:true
+# Explanation: s2 contains one permutation of s1 ("ba").
+# Example 2:
+
+# Input:s1= "ab" s2 = "eidboaoo"
+# Output: false
+
+class Solution:
+    """
+    @param s1: a string
+    @param s2: a string
+    @return: if s2 contains the permutation of s1
+    """
+    def check_inclusion(self, s1: str, s2: str) -> bool:
+        # write your code here
+        l1 = len(s1)
+        need = collections.Counter(s1)
+        missing = l1
+        for i,c in enumerate(s2):
+            if c in need: 
+                if need[c] > 0: missing -= 1    
+                need[c] -= 1                    
+            if i>=l1 and s2[i-l1] in need:      
+                need[s2[i-l1]] += 1            
+                if need[s2[i-l1]]>0: missing += 1  
+            if missing == 0:
+                return True
+        return False
