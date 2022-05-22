@@ -253,3 +253,15 @@ class Solution:
         self.tot = 0
         dfs(root)
         return self.tot
+
+        # if not root:
+        #     return 0
+        
+        # if root.val < l:
+        #     return self.range_sum_b_s_t(root.right, l, r)
+            
+        # elif root.val > r:
+        #     return self.range_sum_b_s_t(root.left, l, r)
+            
+        # else: 
+        #     return root.val + self.range_sum_b_s_t(root.left, l, r) + self.range_sum_b_s_t(root.right, l, r)
