@@ -485,3 +485,45 @@ class Solution:
         for _ in range(n-2):
             lo, hi = hi, (k-1)*hi + (k-1)*lo 
         return hi
+
+# 888 · Valid Word Square
+# Description
+# Given a sequence of words, check whether it forms a valid word square.
+
+# A sequence of words forms a valid word square if the k^th row and column read the exact same string, where 0 ≤ k < max(numRows, numColumns).
+
+# The number of words given is at least 1 and does not exceed 500.
+# Word length will be at least 1 and does not exceed 500.
+# Each word contains only lowercase English alphabet a-z.
+# Example
+# Example1
+
+# Input:  
+# [
+#   "abcd",
+#   "bnrt",
+#   "crmy",
+#   "dtye"
+# ]
+# Output: true
+# Explanation:
+# The first row and first column both read "abcd".
+# The second row and second column both read "bnrt".
+# The third row and third column both read "crmy".
+# The fourth row and fourth column both read "dtye".
+
+# Therefore, it is a valid word square.
+
+class Solution:
+    """
+    @param words: a list of string
+    @return: a boolean
+    """
+    def valid_word_square(self, words: List[str]) -> bool:
+        # Write your code here
+        for i in range(len(words)):
+            for j in range(i + 1, len(words[i])):
+                if words[i][j] != words[j][i]:
+                    return False
+        return True
+                
