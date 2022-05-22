@@ -425,8 +425,63 @@ class Solution:
     @param digits: a number represented as an array of digits
     @return: the result
     """
+    #O(n) time, O(n) space
     def plus_one(self, digits: List[int]) -> List[int]:
         # write your code here
         num = int("".join([str(digit) for digit in digits]))
         num += 1 
         return [int(ele) for ele in str(num)]
+
+    #O(n) time , O(1) space
+    def plus_one1(self, digits: List[int]) -> List[int]:    
+        # write your code here
+        n = len(digits)
+        for i in range(n - 1, -1, -1):
+            if digits[i] != 9:
+                digits[i] += 1
+                for j in range(i + 1, n):
+                    digits[j] = 0
+                return digits
+
+        # 元素均为 9 的话需要向前进一位
+        return [1] + [0] * n
+
+# 514 · Paint Fence
+# Description
+# There is a fence with n posts, each post can be painted with one of the k colors.
+# You have to paint all the posts such that no more than two adjacent fence posts have the same color.
+# Return the total number of ways you can paint the fence.
+
+# n and k are non-negative integers.
+
+# Example
+# Example 1:
+
+# Input: n=3, k=2  
+# Output: 6
+# Explanation:
+#           post 1,   post 2, post 3
+#     way1    0         0       1 
+#     way2    0         1       0
+#     way3    0         1       1
+#     way4    1         0       0
+#     way5    1         0       1
+#     way6    1         1       0
+
+class Solution:
+    """
+    @param n: non-negative integer, n posts
+    @param k: non-negative integer, k colors
+    @return: an integer, the total number of ways
+    """
+    def num_ways(self, n: int, k: int) -> int:
+        # write your code here
+        if n == 0: return 0
+        if n == 1: return k 
+        if n == 2: return k*k
+        if k == 1: return 0
+        
+        lo, hi = k, k*k 
+        for _ in range(n-2):
+            lo, hi = hi, (k-1)*hi + (k-1)*lo 
+        return hi
