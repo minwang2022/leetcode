@@ -569,3 +569,57 @@ class Solution:
                 res.append(s[:i] + "--" + s[i+ 2:])
         
         return res 
+
+
+# 669 · Coin Change
+# Description
+# You are given coins of different denominations and a total amount of money amount. Write a function to compute the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.
+
+# You may assume that you have an infinite number of each kind of coin.
+# It is guaranteed that the num of money will not exceed 10000.
+# And the num of coins wii not exceed 500，The denomination of each coin will not exceed 100
+
+# Example
+# Example1
+
+# Input: 
+# [1, 2, 5]
+# 11
+# Output: 3
+# Explanation: 11 = 5 + 5 + 1
+# Example2
+
+# Input: 
+# [2]
+# 3
+# Output: -1
+
+class Solution:
+    """
+    @param coins: a list of integer
+    @param amount: a total amount of money amount
+    @return: the fewest number of coins that you need to make up
+    """
+    def coin_change(self, coins: List[int], amount: int) -> int:
+        # write your code here
+        INF = 0x3f3f3f3f
+                                                              #[ [0],  [1],  [2], [3],  [4],  [5],   [6],  [7],  [8],  [9], [10], [11]]
+        dp = [INF for _ in range(amount + 1)]  # 边界条件      #[[inf],[inf],[inf],[inf],[inf],[inf],[inf],[inf],[inf],[inf],[inf],[inf]]
+
+        dp[0] = 0 # 初始化0                                    #[[0],  [1],[inf],[inf],[inf],[inf],[inf],[inf],[inf],[inf],[inf],[inf]]
+
+        for i in range(1, amount + 1):                      # 1 - 11 i = 1
+
+            for coin in coins:                              #[1, 2, 5] , 5
+
+                if i >= coin and dp[i - coin] != INF:       #i = 1, coin = 5 and dp[1-1] = dp[0] == 0
+
+                    dp[i] = min(dp[i], dp[i - coin] + 1)    #dp[1] = 1
+                print(dp)
+        # 如果不存任意的方案 返回-1
+
+        if dp[amount] == INF:
+
+            return -1
+
+        return dp[amount]
