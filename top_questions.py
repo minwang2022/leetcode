@@ -199,3 +199,57 @@ class BSTIterator:
         nxt = self.curt                             #nxt = 10
         self.curt = self.curt.right                 #[], 11
         return nxt                                  #1, 6, 10
+
+
+# 1704 · Range Sum of BST
+# Description
+# Given the root node of a binary search tree, return the sum of values of all nodes with value between L and R (inclusive).
+
+# The binary search tree is guaranteed to have unique values.
+
+# The number of nodes in the tree is at most 10000.
+# The final answer is guaranteed to be less than 2^31.
+
+# Example 1:
+
+# Input: root = [10,5,15,3,7,null,18], L = 7, R = 15
+# Output: 32
+# Example 2:
+
+# Input: root = [10,5,15,3,7,13,18,1,null,6], L = 6, R = 10
+# Output: 23
+
+from lintcode import (
+    TreeNode,
+)
+
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+"""
+
+class Solution:
+    """
+    @param root: the root node
+    @param l: an integer
+    @param r: an integer
+    @return: the sum
+    """
+    def range_sum_b_s_t(self, root: TreeNode, l: int, r: int) -> int:
+        # write your code here.
+        
+        def dfs(node):
+            if node:
+                if l <= node.val <= r:
+                    self.tot += node.val
+                if l < node.val:
+                    dfs(node.left)
+                if r > node.val:
+                    dfs(node.right)
+        
+        self.tot = 0
+        dfs(root)
+        return self.tot
