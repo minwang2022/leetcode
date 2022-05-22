@@ -142,3 +142,60 @@ class Solution:
         res = []
         dfs(0, "", 0, 0, res)
         return res
+
+
+# 86 · Binary Search Tree Iterator
+# Description
+# Design an iterator over a binary search tree with the following rules:
+# Next() returns the next smallest element in the BST.
+
+# Elements are visited in ascending order (i.e. an in-order traversal)
+# next() and hasNext() queries run in O(1)O(1) time in average.
+# Example
+# Example 1:
+
+# Input:
+
+# tree = {10,1,11,#,6,#,12}
+# Output:
+
+# [1,6,10,11,12]
+
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+
+Example of iterate a tree:
+iterator = BSTIterator(root)
+while iterator.hasNext():
+    node = iterator.next()
+    do something for node 
+"""
+
+
+class BSTIterator:
+    """
+    @param: root: The root of binary tree.
+    """
+    def __init__(self, root):
+        # do intialization if necessary
+        self.stack = []
+        self.curt = root
+
+    #@return: True if there has next node, or false
+    def hasNext(self):
+        return self.curt is not None or len(self.stack) > 0
+
+    #@return: return next node
+    def _next(self):                                #[10]
+        while self.curt is not None:                #none, 
+            self.stack.append(self.curt)            #[10], 
+            self.curt = self.curt.left              # none 
+            
+        self.curt = self.stack.pop()                #[],  10
+        nxt = self.curt                             #nxt = 10
+        self.curt = self.curt.right                 #[], 11
+        return nxt                                  #1, 6, 10
