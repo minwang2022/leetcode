@@ -66,7 +66,7 @@ class Solution:
                 if sizeSet != len(S):
                     q.append(str3)
         return res
-        
+
     def check(self,str):
         if len(str) == 0:
             return True
@@ -82,3 +82,63 @@ class Solution:
         if count == 0:
             return True
         return False
+    
+# 653 · Expression Add Operators
+# Description
+# Given a string that contains only digits 0-9 and a target value, return all possibilities to add binary operators (not unary) +, -, or * between the digits so they evaluate to the target value.
+# The number does not contain the leading 0.
+
+# Example
+# Example 1:
+
+# Input:
+# "123"
+# 6
+# Output: 
+# ["1*2*3","1+2+3"]
+# Example 2:
+
+# Input:
+# "232"
+# 8
+# Output: 
+# ["2*3+2", "2+3*2"]
+# Example 3:
+
+# Input:
+# "105"
+# 5
+# Output:
+# ["1*0+5","10-5"]
+
+from typing import (
+    List,
+)
+
+class Solution:
+    """
+    @param num: a string contains only digits 0-9
+    @param target: An integer
+    @return: return all possibilities
+             we will sort your return value in output
+    """
+    def add_operators(self, num: str, target: int) -> List[str]:
+        # write your code here
+        def dfs(idx, tmp, tot, last, res):
+            if idx == len(num):
+                if tot == target:
+                    res.append(tmp)
+                return
+            for i in range(idx, len(num)):
+                x = int(num[idx: i + 1])
+                if idx == 0:
+                    dfs(i + 1, str(x), x, x, res)
+                else:
+                    dfs(i + 1, tmp + "+" + str(x), tot + x, x, res)
+                    dfs(i + 1, tmp + "-" + str(x), tot - x, -x, res)
+                    dfs(i + 1, tmp + "*" + str(x), tot - last + last * x, last * x, res)
+                if x == 0:
+                    break
+        res = []
+        dfs(0, "", 0, 0, res)
+        return res
