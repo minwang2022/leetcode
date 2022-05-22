@@ -265,3 +265,87 @@ class Solution:
             
         # else: 
         #     return root.val + self.range_sum_b_s_t(root.left, l, r) + self.range_sum_b_s_t(root.right, l, r)
+
+
+# 1506 · All Nodes Distance K in Binary Tree
+
+# Description
+# We are given a binary tree (with root node root), a target node, and an integer value K.
+
+# Return a list of the values of all nodes that have a distance K from the target node. The answer can be returned in any order.
+
+# The given tree is non-empty and has k nodes at least.
+# Each node in the tree has unique values 0 <= node.val <= 500.
+# The target node is a node in the tree.
+# 0 <= K <= 1000.
+# Example
+# Example 1:
+
+# Input:
+# {3,5,1,6,2,0,8,#,#,7,4}
+# 5
+# 2
+
+# Output: [7,4,1]
+
+# Explanation: 
+# The nodes that are a distance 2 from the target node (with value 5)
+# have values 7, 4, and 1.
+
+from typing import (
+    List,
+)
+from lintcode import (
+    TreeNode,
+)
+from collections import deque
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+"""
+
+class Solution:
+    """
+    @param root: the root of the tree
+    @param target: the target
+    @param k: the given K
+    @return: All Nodes Distance K in Binary Tree
+             we will sort your return value in output
+    """
+    def distance_k(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
+        # Write your code here
+        graph = {}
+        self.build_graph(graph, None, root)
+        
+        # bfs
+        queue = deque([target])
+        visited = set([target])
+        for _ in range(k):
+            size = len(queue)
+            for i in range(size):
+                node = queue.popleft()
+                for neighbor in graph[node]:
+                    if neighbor in visited: continue
+                    queue.append(neighbor)
+                    visited.add(neighbor)
+        return [x.val for x in queue]
+
+    def build_graph(self, graph, parent, root):
+        if root is None:
+            return
+        self.add_edge(graph, root, root.left)
+        self.add_edge(graph, root, root.right)
+        self.add_edge(graph, root, parent)
+        self.build_graph(graph, root, root.left)
+        self.build_graph(graph, root, root.right)
+
+    def add_edge(self, graph, a, b):
+        # add an edge a->b
+        if b is None:
+            return
+        if a not in graph:
+            graph[a] = set()
+        graph[a].add(b)
