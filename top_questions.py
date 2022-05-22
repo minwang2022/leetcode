@@ -349,3 +349,53 @@ class Solution:
         if a not in graph:
             graph[a] = set()
         graph[a].add(b)
+    
+# 1871 · Maximum moment
+# Description
+# Give you a 24-hour time (00: 00-23: 59), where one or more numbers of the four numbers are question marks. Question mark can be replaced with any number, then what is the maximum time you can represent.
+
+# Example 1:
+
+# Input: 
+# time = "2?:00"
+# Output: 
+# "23:00"
+# Example 2:
+
+# Input: 
+# time = "??:??"
+# Output: 
+# "23:59"
+
+class Solution:
+    """
+    @param time: a string of Time
+    @return: The MaximumMoment
+    """
+    def maximum_moment(self, time: str) -> str:
+        # Write your code here.
+        answer = ""
+        if(time[0] == '?'):
+            if(time[1] <= '9' and time[1] >= '4'):
+                answer += '1'
+            else:
+                answer += '2'
+        else:
+            answer += time[0]
+        if(time[1] == '?'):
+            if(answer[0] != '2'):
+                answer += '9'
+            else:
+                answer += '3'
+        else:
+            answer += time[1]
+        answer += ':'
+        if(time[3] == '?'):
+            answer += '5'
+        else:
+            answer += time[3]
+        if(time[4] == '?'):
+            answer += '9'
+        else:
+            answer += time[4]
+        return answer
