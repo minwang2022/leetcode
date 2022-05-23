@@ -623,3 +623,123 @@ class Solution:
             return -1
 
         return dp[amount]
+
+# 257 · Longest String Chain
+# Description
+# Given a list of words, each word consists of English lowercase letters.
+# Let's say word1 is a predecessor of word2 if and only if we can add exactly one letter anywhere in word1 to make it equal to word2.  For example, "abc" is a predecessor of "abac".
+# A word chain is a sequence of words [word_1, word_2, ..., word_k] with k >= 1, where word_1 is a predecessor of word_2, word_2 is a predecessor of word_3, and so on.
+# Return the longest possible length of a word chain with words chosen from the given list of words.
+
+# 1 <= words.length <= 1000
+# 1 <= words[i].length <= 16
+# words[i] only consists of English lowercase letters.
+# Example
+# Exmple 1
+
+# Input: ["ba","a","b","bca","bda","bdca"]
+# Output: 4
+# Explanation: one of the longest word chain is "a","ba","bda","bdca".
+
+class Solution:
+    """
+    @param words: the list of word.
+    @return: the length of the longest string chain.
+    """
+    def pre_word(self, a, b):
+        if len(a) + 1 != len(b):
+            return False
+        i = 0
+        j = 0
+        while i < len(a) and j < len(b):
+            if a[i] == b[j]:
+                i += 1
+            j += 1
+        if(i == len(a)):
+            return True
+        return False
+    
+    def longestStrChain(self, words):
+        dp = [0 for i in range(len(words))]
+        ans = 0
+        words = sorted(words, key=lambda x: len(x))
+        for i in range(len(words)):
+            for j in range(i):
+                if self.pre_word(words[j], words[i]):
+                    dp[i] = int(max(dp[i], dp[j] + 1))
+                    ans = int(max(ans, dp[i]))
+        return ans + 1
+
+# 941 · Sliding Puzzle
+# Description
+# On a 2x3 board, there are 5 tiles represented by the integers 1 through 5, and an empty square represented by 0.
+
+# A move consists of choosing 0 and a 4-directionally adjacent number and swapping it.
+
+# The state of the board is solved if and only if the board is [[1,2,3],[4,5,0]].
+
+# Given a puzzle board, return the least number of moves required so that the state of the board is solved. If it is impossible for the state of the board to be solved, return -1.
+
+# board will be a 2 x 3 array as described above.
+# board[i][j] will be a permutation of [0, 1, 2, 3, 4, 5].
+# Example
+# Example 1:
+
+# Given board = `[[1,2,3],[4,0,5]]`, return `1`.
+
+# Explanation: 
+# Swap the 0 and the 5 in one move.
+# Example 2：
+
+# Given board = `[[1,2,3],[5,4,0]]`, return `-1`.
+
+# Explanation: 
+# No number of moves will make the board solved.
+# Example 3:
+
+# Given board = `[[4,1,2],[5,0,3]]`, return `5`.
+
+# Explanation: 
+# 5 is the smallest number of moves that solves the board.
+# An example path:
+# After move 0: [[4,1,2],[5,0,3]]
+# After move 1: [[4,1,2],[0,5,3]]
+# After move 2: [[0,1,2],[4,5,3]]
+# After move 3: [[1,0,2],[4,5,3]]
+# After move 4: [[1,2,0],[4,5,3]]
+# After move 5: [[1,2,3],[4,5,0]]
+
+class Solution:
+    """
+    @param board: the given board
+    @return:  the least number of moves required so that the state of the board is solved
+    """
+    NEIGHBORS = [[1, 3], [0, 2, 4], [1, 5], [0, 4], [1, 3, 5], [2, 4]]
+
+    def sliding_puzzle(self, board: List[List[int]]) -> int:
+        # write your code here
+        # 枚举 status 通过一次交换操作得到的状态
+        def get(status: str):
+            s = list(status)
+            x = s.index("0")
+            for y in Solution.NEIGHBORS[x]:
+                s[x], s[y] = s[y], s[x]
+                yield "".join(s)
+                s[x], s[y] = s[y], s[x]
+
+        initial = "".join(str(num) for num in sum(board, []))
+        if initial == "123450":
+            return 0
+
+        q = collections.deque([(initial, 0)])
+        seen = {initial}
+        while q:
+            status, step = q.popleft()
+            for next_status in get(status):
+                if next_status not in seen:
+                    if next_status == "123450":
+                        return step + 1
+                    q.append((next_status, step + 1))
+                    seen.add(next_status)
+        
+        return -1
