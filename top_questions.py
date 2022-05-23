@@ -881,3 +881,40 @@ class Solution:
 
         return visited == num_courses
 
+# 156 · Merge Intervals
+# Description
+# Given a collection of intervals, merge all overlapping intervals.
+
+# Example
+# Example 1:
+
+# Input: [(1,3)]
+# Output: [(1,3)]
+# Example 2:
+
+# Input:  [(1,3),(2,6),(8,10),(15,18)]
+# Output: [(1,6),(8,10),(15,18)]
+
+"""
+Definition of Interval:
+class Interval(object):
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+"""
+
+class Solution:
+    """
+    @param intervals: interval list.
+    @return: A new interval list.
+    """
+    def merge(self, intervals: List[Interval]) -> List[Interval]:
+        # write your code here
+        intervals = sorted(intervals, key=lambda x: x.start)
+        result = []
+        for interval in intervals:
+            if len(result) == 0 or result[-1].end < interval.start:
+                result.append(interval)
+            else:
+                result[-1].end = max(result[-1].end, interval.end)
+        return result
