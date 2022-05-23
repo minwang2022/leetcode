@@ -828,3 +828,56 @@ class Solution:
                 cntG[int(g)] += 1
         cows = sum(min(s, g) for s, g in zip(cntS, cntG))
         return f'{bulls}A{cows}B'
+
+# 615 · Course Schedule
+# Description
+# There are a total of n courses you have to take, labeled from 0 to n - 1.
+
+# Before taking some courses, you need to take other courses. For example, to learn course 0, you need to learn course 1 first, which is expressed as [0,1].
+
+# Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?
+
+# prerequisites may appear duplicated
+
+# Example
+# Example 1:
+
+# Input: n = 2, prerequisites = [[1,0]] 
+# Output: true
+# Example 2:
+
+# Input: n = 2, prerequisites = [[1,0],[0,1]] 
+# Output: false
+
+class Solution:
+    """
+    @param num_courses: a total of n courses
+    @param prerequisites: a list of prerequisite pairs
+    @return: true if can finish all courses or false
+    """
+    def can_finish(self, num_courses: int, prerequisites: List[List[int]]) -> bool:
+        # write your code here
+        indegree = [0] * num_courses
+        edges = collections.defaultdict(list)
+
+        for i, j in prerequisites:
+            indegree[i] += 1
+            edges[j].append(i)
+
+        que = collections.deque()
+        visited = 0
+
+        for i in range(num_courses):
+            if indegree[i] == 0:
+                que.append(i)
+
+        while que:
+            crs_num = que.popleft()
+            visited += 1
+            for course in edges[crs_num]:
+                indegree[course] -= 1
+                if indegree[course] == 0:
+                    que.append(course)
+
+        return visited == num_courses
+
