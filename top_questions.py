@@ -56,7 +56,7 @@ class Solution:
             # 对于无效的字符串，依次删除一个字符压入队列
             for i in range(len(curStr)):
                 if curStr[i] != '(' and curStr[i] != ')':
-                    continue;
+                    continue
                 str1 = curStr[:i]
                 str2 = curStr[i + 1:]
                 str3 = str1 + str2
@@ -788,3 +788,43 @@ class Solution:
         s.reverse()
 
         return " ".join(s)
+
+# 1299 · Bulls and Cows
+# Description
+# You are playing the following Bulls and Cows game with your friend: You write down a number and ask your friend to guess what the number is. Each time your friend makes a guess, you provide a hint that indicates how many digits in said guess match your secret number exactly in both digit and position (called "bulls") and how many digits match the secret number but locate in the wrong position (called "cows"). Your friend will use successive guesses and hints to eventually derive the secret number.
+
+# Write a function to return a hint according to the secret number and friend's guess, use Ato indicate the bulls and B to indicate the cows.
+
+# Please note that both secret number and friend's guess may contain duplicate digits.
+
+# You may assume that the secret number and your friend's guess only contain digits, and their lengths are always equal.
+
+# Example
+# Example 1:
+
+# Input：secret = "1807", guess = "7810"
+# Output："1A3B"
+# Explanation：1 bull and 3 cows. The bull is 8, the cows are 0, 1 and 7.
+# Example 2:
+
+# Input：secret = "1123", guess = "0111"
+# Output："1A1B"
+# Explanation：The 1st 1 in friend's guess is a bull, the 2nd or 3rd 1 is a cow.
+class Solution:
+    """
+    @param secret: An string
+    @param guess: An string
+    @return: An string
+    """
+    def get_hint(self, secret: str, guess: str) -> str:
+        # write your code here
+        bulls = 0
+        cntS, cntG = [0] * 10, [0] * 10
+        for s, g in zip(secret, guess):
+            if s == g:
+                bulls += 1
+            else:
+                cntS[int(s)] += 1
+                cntG[int(g)] += 1
+        cows = sum(min(s, g) for s, g in zip(cntS, cntG))
+        return f'{bulls}A{cows}B'
