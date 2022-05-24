@@ -918,3 +918,93 @@ class Solution:
             else:
                 result[-1].end = max(result[-1].end, interval.end)
         return result
+
+# 860 · Number of Distinct Islands
+# Description
+# Given a non-empty 2D array grid of 0's and 1's, an island is a group of 1's (representing land) connected 4-directionally (horizontal or vertical). You may assume all four edges of the grid are surrounded by water.
+
+# Count the number of distinct islands. An island is considered to be the same as another if and only if one island has the same shape as another island (and not rotated or reflected).
+
+# Notice that:
+
+# 11
+# 1
+# and
+
+#  1
+# 11
+# are considered different island, because we do not consider reflection / rotation.
+
+# The length of each dimension in the given grid does not exceed 50.
+
+# Example
+# Example 1:
+
+# Input: 
+#   [
+#     [1,1,0,0,1],
+#     [1,0,0,0,0],
+#     [1,1,0,0,1],
+#     [0,1,0,1,1]
+#   ]
+# Output: 3
+# Explanation:
+#   11   1    1
+#   1        11   
+#   11
+#    1
+# Example 2:
+
+# Input:
+#   [
+#     [1,1,0,0,0],
+#     [1,1,0,0,0],
+#     [0,0,0,1,1],
+#     [0,0,0,1,1]
+#   ]
+# Output: 1
+
+import collections
+
+DIRECTION = [(1, 0), (-1,0), (0, 1), (0, -1)]
+
+
+class Solution:
+    """
+    @param grid: a list of lists of integers
+    @return: return an integer, denote the number of distinct islands
+    """
+    def numberof_distinct_islands(self, grid: List[List[int]]) -> int:
+        # write your code here
+        n, m = len(grid), len(grid[0])
+        que = collections.deque()
+        count = 0
+        visited = set()
+        paths = set()
+        for i in range(n):
+            for j in range(m):
+                if (i, j) in visited: continue 
+                if grid[i][j] == 1:
+                    que.append((i,j))
+                    visited.add((i,j))
+                
+                    path = ""
+                        
+                    while que:
+                        x, y = que.popleft()
+                        for delta_x, delta_y in DIRECTION:
+                            new_x, new_y = x + delta_x, y + delta_y
+                            
+                            if (new_x, new_y) in visited: continue 
+                            if self.is_valid(grid, new_x, new_y):
+                                visited.add((new_x, new_y))
+                                que.append((new_x, new_y))
+                                path += str(new_x - i) + str(new_y -j)
+                    paths.add(path)
+
+        return len(paths)                            
+
+    def is_valid(self, grid, x, y):
+        row, col = len(grid), len(grid[0])
+        return x >= 0 and x < row and y >= 0 and y < col and grid[x][y] == 1
+
