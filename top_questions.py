@@ -1008,3 +1008,74 @@ class Solution:
         row, col = len(grid), len(grid[0])
         return x >= 0 and x < row and y >= 0 and y < col and grid[x][y] == 1
 
+# 1240 · Path Sum III
+# Description
+# You are given a binary tree in which each node contains an integer value.
+
+# Find the number of paths that sum to a given value.
+
+# The path does not need to start or end at the root or a leaf, but it must go downwards (traveling only from parent nodes to child nodes).
+
+# The tree has no more than 1,000 nodes and the values are in the range -1,000,000 to 1,000,000.
+
+# Example
+# Example 1:
+
+# Input：root = [10,5,-3,3,2,null,11,3,-2,null,1], sum = 8
+# Output：3
+# Explanation：
+#       10
+#      /  \
+#     5   -3
+#    / \    \
+#   3   2   11
+#  / \   \
+# 3  -2   1
+
+# Return 3. The paths that sum to 8 are:
+
+# 1.  5 -> 3
+# 2.  5 -> 2 -> 1
+# 3. -3 -> 11
+# Example 2:
+
+# Input：root = [11,6,-3], sum = 17
+# Output：1
+# Explanation：
+#       11
+#      /  \
+#     6   -3
+# Return 17. The path that sum to 17 is:
+
+# 1.  11 -> 6
+
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+"""
+
+class Solution:
+    """
+    @param root: 
+    @param sum: 
+    @return: 
+    """
+
+    def DFS(self, root, su, tmp):
+        if None==root:
+            return 0
+   
+        flag=0
+        if su==tmp+root.val:
+            flag=1
+        return flag+self.DFS(root.left, su, tmp+root.val)+self.DFS(root.right, su, tmp+root.val)
+    
+    def pathSum(self, root, su):
+        #write your code here
+        if None==root:
+            return 0
+       
+        return self.DFS(root, su, 0)+self.pathSum(root.left, su)+self.pathSum(root.right, su)
