@@ -588,3 +588,64 @@ class Solution:
             if missing == 0:
                 return True
         return False
+
+#ex: [0,3,2,5], 5 -> 2
+# [1,2,1,1], 3  ->3
+# [1,2,1,1,2] -> 6
+def twoPairSUm(arr, target):
+    if not arr and target is None:
+        return 0
+    
+    arr = sorted(arr)
+    
+    start, end = 0, len(arr) - 1
+    count = 0
+    while start < end:                          #[1, 1, 1, 2] 3 , 0 , 3
+        if arr[start] + arr[end] < target:         #5
+            start += 1                               
+        elif arr[start] + arr[end] > target:        # 5
+            end -= 1                                
+        else:       
+            start_dup, end_dup = 1, 1                              
+            while start < end and arr[start] == arr[start +1]:
+                start_dup += 1
+                start += 1
+            while start < end and arr[end] == arr[end - 1]:      # 3 * 1 = 3
+                end_dup += 1
+                end -= 1
+                
+            count += start_dup * end_dup
+            
+    return count
+
+
+# 1281 · Top K Frequent Elements
+# Description
+# Given a non-empty array of integers, return the k most frequent elements.
+
+# You may assume k is always valid, 1 ≤ k ≤ number of unique elements.
+# Your algorithm's time complexity must be better than O(n log n), where n is the array's size.
+# Example
+# Example 1:
+
+# Input: nums = [1,1,1,2,2,3], k = 2
+# Output: [1,2]
+# Example 2:
+
+# Input: nums = [1], k = 1
+# Output: [1]
+
+import collections 
+class Solution:
+    """
+    @param nums: the given array
+    @param k: the given k
+    @return: the k most frequent elements
+             we will sort your return value in output
+    """
+    def top_k_frequent(self, nums: List[int], k: int) -> List[int]:
+        # Write your code here
+        counter = collections.Counter(nums)
+        targets = counter.most_common(k)
+        res = [num for num, target in targets]
+        return res 
