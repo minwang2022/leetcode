@@ -718,3 +718,71 @@ class Solution:
             meeting_rooms = max(meeting_rooms, ongoing_meetings)
             
         return meeting_rooms
+
+# 1897 · Meeting Room III
+# Description
+# you have a list intervals of current meetings, and some meeting rooms with start and end timestamp.When a stream of new meeting ask coming in, judge one by one whether they can be placed in the current meeting list without overlapping..A meeting room can only hold one meeting at a time. Each inquiry is independent.
+
+# The meeting asked can be splited to some times. For example, if you want to ask a meeting for [2, 4], you can split it to [2,3] and [3, 4].
+
+# Ensure that Intervals can be arranged in rooms meeting rooms
+# The start and end times of any session are guaranteed to take values in the range [1, 50000]
+# |Intervals| <= 50000
+# |ask| <= 50000
+# 1 <= rooms <= 20
+
+# Example
+# Example 1:
+
+# Input:
+# Intervals:[[1,2],[4,5],[8,10]], rooms = 1, ask: [[2,3],[3,4]]
+# Output: 
+# [true,true]
+# Explanation:
+# For the ask of [2,3], we can arrange a meeting room room0.
+# The following is the meeting list of room0:
+# [[1,2], [2,3], [4,5], [8,10]]
+# For the ask of [3,4], we can arrange a meeting room room0.
+# The following is the meeting list of room0:
+# [[1,2], [3,4], [4,5], [8,10]]
+import collections
+class Solution:
+    """
+    @param intervals: the intervals
+    @param rooms: the sum of rooms
+    @param ask: the ask
+    @return: true or false of each meeting
+    """
+    def meeting_room_i_i_i(self, intervals: List[List[int]], rooms: int, ask: List[List[int]]) -> List[bool]:
+        # Write your code here.
+        visited = collections.defaultdict(int)
+        for start, end in intervals:
+
+            i, j = start, end
+            visited[i] += 1
+            
+            while j - i > 1: 
+                i += 1
+                visited[i] += 1
+        # print(visited)
+        res = []
+        for start, end in ask:
+
+            start_time, end_time = start, end
+            
+            if visited[start_time] < rooms:
+                flag = True
+            else:
+                flag = False 
+
+            if flag:
+                while end_time - start_time >= 1 :           # 19 - 18 = 1
+                    if start_time in visited and visited[start_time] >= rooms:
+                        flag = False 
+                        break 
+                    
+                    start_time += 1
+
+            res.append(flag)
+
+        return res
