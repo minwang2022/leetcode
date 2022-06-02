@@ -786,3 +786,59 @@ class Solution:
             res.append(flag)
 
         return res
+
+# 300 · Meeting Room IV
+# Description
+# Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...] (si < ei) and the value of each meeting. You can only attend a meeting at the same time. Please calculate the most value you can get.
+
+# Contact me on wechat to get Amazon、Google requent Interview questions . (wechat id : jiuzhang15)
+
+
+# 0 \leq len(meeting) = len(value) \leq 10\,0000≤len(meeting)=len(value)≤10000
+# 1 \leq meeting[i][0] < meeting[i][1] \leq 50\,0001≤meeting[i][0]<meeting[i][1]≤50000
+# value_i \leq 10\,000value 
+# i
+# ​
+#  ≤10000
+# (0,8),(8,10) is not conflict at 8
+
+# Example
+# Example 1
+
+# Input:
+# meeting = [[10,40],[20,50],[30,45],[40,60]]
+# value = [3,6,2,4]
+# Output: 7
+# Explanation: You can take the 0th meeting and the 3th meeting, you can get 3 + 4 = 7.
+# Example 2
+
+# Input:
+# meeting = [[10,20],[20,30]]
+# value = [2,4]
+# Output: 6
+# Explanation: You can take the 0th meeting and the 1st meeting, you can get 2 + 4 = 6.
+
+MAX_TIME = 50000
+class Solution:
+    """
+    @param meeting: the meetings
+    @param value: the value
+    @return: calculate the max value
+    """
+    def maxValue(self, meetings, values):
+        meeting_end_time_to_index_value = collections.defaultdict(list)
+        for i in range(len(meetings)):
+            meeting_end_time_to_index_value[meetings[i][1]].append((meetings[i][0], values[i]))
+        print(meeting_end_time_to_index_value)
+        dp = [0] * (MAX_TIME + 1)
+        for i in range(1, MAX_TIME + 1):
+            dp[i] = dp[i - 1]
+            print(meeting_end_time_to_index_value[i])
+            for j in range(len(meeting_end_time_to_index_value[i])):
+                start = meeting_end_time_to_index_value[i][j][0]
+                value = meeting_end_time_to_index_value[i][j][1]
+                print("i,j",i, j)
+                print("start",start, value)
+                dp[i] = max(dp[i], dp[start] + value)
+        
+        return max(dp)
