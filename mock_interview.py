@@ -940,3 +940,63 @@ class Solution:
                     que.append(neigh)
                     visited[neigh] = visited[word] + 1
         return 0
+
+# 126. Word Ladder II
+# A transformation sequence from word beginWord to word endWord using a dictionary wordList is a sequence of words beginWord -> s1 -> s2 -> ... -> sk such that:
+
+# Every adjacent pair of words differs by a single letter.
+# Every si for 1 <= i <= k is in wordList. Note that beginWord does not need to be in wordList.
+# sk == endWord
+# Given two words, beginWord and endWord, and a dictionary wordList, return all the shortest transformation sequences from beginWord to endWord, or an empty list if no such sequence exists. Each sequence should be returned as a list of the words [beginWord, s1, s2, ..., sk].
+
+ 
+
+# Example 1:
+
+# Input: beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"]
+# Output: [["hit","hot","dot","dog","cog"],["hit","hot","lot","log","cog"]]
+# Explanation: There are 2 shortest transformation sequences:
+# "hit" -> "hot" -> "dot" -> "dog" -> "cog"
+# "hit" -> "hot" -> "lot" -> "log" -> "cog"
+# Example 2:
+
+# Input: beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log"]
+# Output: []
+# Explanation: The endWord "cog" is not in wordList, therefore there is no valid transformation sequence.
+
+class Solution:
+    import collections
+    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        if not beginWord or not endWord or not wordList or beginWord == endWord or endWord not in wordList:
+            return []
+        
+        new_dict = collections.defaultdict(list)
+        length = len(beginWord)
+        for word in wordList:
+            for i in range(length):
+                new_word = word[:i] + "*" + word[i + 1:]
+                new_dict[new_word].append(word)
+
+        res = []
+        que = collections.deque()
+        que.append((beginWord, [beginWord]))
+        visited = set([beginWord])
+        
+        while que and not res:
+            size = len(que)
+            local_set = set()
+            # print(que)
+            for _ in range(size):
+                word, path = que.popleft()
+                
+                for i in range(length):
+                    new_word = word[:i] + "*" + word[i + 1:]
+                    for neighbor in new_dict[new_word]:
+                        if neighbor == endWord:
+                            res.append(path + [neighbor])
+                            
+                        if neighbor not in visited:
+                            local_set.add(neighbor)
+                            que.append((neighbor, path + [neighbor]))
+            visited = visited.union(local_set)
+        return res
