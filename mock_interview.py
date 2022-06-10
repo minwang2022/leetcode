@@ -899,3 +899,44 @@ class Solution:
                     que.append(new_word)
                 
         return True 
+
+class Solution:
+    import collections
+    def ladderLength1(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        if not beginWord or not endWord or not wordList:
+            return 0 
+        new_dict = self.constructList(wordList)
+
+        return self.findWordLayer(new_dict, beginWord, endWord)
+
+    def constructList(self, wordList):
+        
+        dic = collections.defaultdict(list)
+        
+        for word in wordList:
+            for i in range(len(word)):
+                newWord = word[:i] + "_" + word[i + 1:]
+                dic[newWord].append(word)
+        
+        
+        return dic
+    
+    def findWordLayer(self, dic, begin, end):
+        que = collections.deque([begin])
+        visited = {begin: 1}
+        
+        while que:
+            word = que.popleft()
+            if word == end:
+                return visited[word]
+            
+            for i in range(len(word)):
+                newWord = word[:i] + "_" + word[i + 1:]
+                if newWord not in dic:
+                    continue 
+                for neigh in dic[newWord]:
+                    if neigh in visited:
+                        continue
+                    que.append(neigh)
+                    visited[neigh] = visited[word] + 1
+        return 0
