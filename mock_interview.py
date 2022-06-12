@@ -1122,3 +1122,57 @@ class Solution:
                 dp[i][j] = max(dp[i][j - 1], prices[j] + max_diff)
         print(dp)
         return dp[K][n - 1]
+
+# 116 · Jump Game
+# Description
+# Given an array of non-negative integers, you are initially positioned at the first index of the array.
+
+# Each element in the array represents your maximum jump length at that position.
+
+# Determine if you are able to reach the last index.
+
+# Contact me on wechat to get Amazon、Google requent Interview questions . (wechat id : jiuzhang0607)
+
+
+# The array A contains 𝑛 integers 𝑎1, 𝑎2, …, 𝑎𝑛 (1≤𝑎𝑖≤5000) (1≤n≤5000 )
+
+# Example
+# Example 1:
+
+# Input:
+
+# A = [2,3,1,1,4]
+# Output:
+
+# true
+# Explanation:
+
+# 0 -> 1 -> 4 (the number here is subscript) is a reasonable scheme.
+
+# Example 2:
+
+# Input:
+
+# A = [3,2,1,0,4]
+# Output:
+
+# false
+#Greedy 
+class Solution:
+    """
+    @param a: A list of integers
+    @return: A boolean
+    """
+    def can_jump(self, a: List[int]) -> bool:
+        # write your code here
+        if not a:
+            return True
+        reachable = 0
+
+        for i in range(len(a)):
+            if i <= reachable:
+                reachable = max(reachable, i + a[i])
+                if reachable >= len(a) -1:
+                    return True 
+        
+        return False
