@@ -618,3 +618,43 @@ class Solution:
                 curr += num
         
         return count 
+
+# solution 2
+class Solution:
+    """
+    @param nums: a list of integers
+    @param m: an integer
+    @return: return a integer
+    """
+    def split_array(self, nums: List[int], m: int) -> int:
+        # write your code here
+        if not nums:
+            return 0
+        
+        left, right = max(nums), sum(nums)
+        while left + 1 < right:
+            mid = (left + right) // 2
+            if self.checkNumSplit(nums, m, mid):
+                right = mid
+            else:
+                left = mid
+
+        if self.checkNumSplit(nums, m, left):
+            return left
+
+        return right
+    
+    def checkNumSplit(self, nums, m, split):
+        count = 1 
+        curr = 0
+        for num in nums:
+            if curr + num > split:
+                curr = num 
+                count += 1
+            else:
+                curr += num
+        
+        return count <= m
+
+
+            
