@@ -554,3 +554,67 @@ class Solution:
                 count += 1 
 
         return count <= k 
+
+# 1251 · Split Array Largest Sum
+# Description
+# Given an integer m and an array which consists of non-negative integers, we are going to split the array into m non-empty continuous subarrays, such that the maximum value of the sum of these m arrays is the smallest of all splitting schemes.
+
+# Contact me on wechat to get Amazon、Google requent Interview questions . (wechat id : jiuzhang0607)
+
+
+# If n is the length of array, assume the following constraints are satisfied:
+
+# 1 ≤ n ≤ 1000
+# 1 ≤ m ≤ min(50, n)
+# https://kns.cnki.net/kns8/defaultresult/index
+
+# Example
+# Example 1:
+
+# Input：[7,2,5,10,8], m = 2
+# Output：18
+# Explanation：
+#     There are four ways to split nums into two subarrays.
+#     The best way is to split it into [7,2,5] and [10,8],
+#     where the largest sum among the two subarrays is only 18.
+# Example 2:
+
+# Input：[1,4,4], m = 3
+# Output：4
+# Explanation：
+#     There is a way to split nums into three subarrays.
+#     The best way is to split it into [1], [4] and [4],
+#     where the largest sum among the three subarrays is only 4.
+
+class Solution:
+    """
+    @param nums: a list of integers
+    @param m: an integer
+    @return: return a integer
+    """
+    def split_array(self, nums: List[int], m: int) -> int:
+        # write your code here
+        if not nums:
+            return 0
+        
+        left, right = max(nums), sum(nums)
+        while left < right:
+            mid = (left + right) // 2
+            if self.checkNumSplit(nums, m, mid) <= m:
+                right = mid
+            else:
+                left = mid + 1
+
+        return left
+    
+    def checkNumSplit(self, nums, m, split):
+        count = 1 
+        curr = 0
+        for num in nums:
+            if curr + num > split:
+                curr = num 
+                count += 1
+            else:
+                curr += num
+        
+        return count 

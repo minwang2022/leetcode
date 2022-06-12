@@ -1000,3 +1000,4 @@ class Solution:
                             que.append((neighbor, path + [neighbor]))
             visited = visited.union(local_set)
         return res
+
