@@ -154,3 +154,73 @@ class Solution:
                     dp[i][j] = max(dp[i -1][j], dp[i][j -1])
                 # print(dp)
         return dp[-1][-1]
+
+# 114 · Unique Paths
+# Description
+# A robot is located at the top-left corner of a m x nmxn grid.
+
+# The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid.
+
+# How many possible unique paths are there?
+
+# Contact me on wechat to get Amazon、Google requent Interview questions . (wechat id : jiuzhang0607)
+
+
+# m and n will be at most 100.
+# The answer is guaranteed to be in the range of 32-bit integers
+
+# Example
+# Example 1:
+
+# Input:
+
+# n = 1
+# m = 3
+# Output:
+
+# 1
+# Explanation:
+
+# Only one path to target position.
+
+# Example 2:
+
+# Input:
+
+# n = 3
+# m = 3
+# Output:
+
+# 6
+class Solution:
+    """
+    @param m: positive integer (1 <= m <= 100)
+    @param n: positive integer (1 <= n <= 100)
+    @return: An integer
+    """
+    def uniquePaths(self, m, n):
+        
+        # dp = [[0] * m for _ in range(n)]
+        
+
+        # for i in range(n):
+            
+        #     for j in range(m):
+        #         if i == 0 or j == 0:
+        #             dp[i][j] = 1
+        #         else:
+        #             dp[i][j] = max(dp[i][j], dp[i -1][j] + dp[i][j-1])
+        #         print(dp)
+        # return dp[n-1][m-1]
+
+        
+#    def uniquePaths(self, m, n):
+        dp = [[0] * n for _ in range(m)]
+        for i in range(m):
+            for j in range(n):
+                if i == 0 or j == 0:
+                    dp[i][j] = 1
+                else:
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+                print(dp)
+        return dp[m - 1][n - 1]
