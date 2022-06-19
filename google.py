@@ -224,3 +224,57 @@ class Solution:
                     dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
                 print(dp)
         return dp[m - 1][n - 1]
+
+# 1543 · Unique Path IV
+# Description
+# Give two integers to represent the height and width of the grid. The starting point is in the upper left corner and the ending point is in the upper right corner. You can go to the upper right corner, right or lower right corner. Find out the number of paths you can reach the end. And the result needs to mod 1000000007.
+
+# Contact me on wechat to get Amazon、Google requent Interview questions . (wechat id : jiuzhang0607)
+
+
+# width > 1, height > 1
+
+# Example
+# Example 1:
+
+# Input:
+# height = 3
+# width = 3
+# Output:
+# 2
+# Explanation: There are two ways from start to end.
+
+# image
+
+# Example 2:
+
+# Input:
+# height = 2
+# weight = 2
+# Output:
+# 1
+# Explanation: There are only one way from (1,1) to (2,1)
+
+class Solution:
+    """
+    @param height: the given height
+    @param width: the given width
+    @return: the number of paths you can reach the end
+    """
+    def unique_path(self, height: int, width: int) -> int:
+        # Write your code here
+        dp = [[0] * width for _ in range(height)]
+
+        dp[0][0] = 1
+
+        for j in range(1, width):
+
+            for i in range(height - 1):
+                if i == 0:
+                    dp[i][j] = dp[i][j - 1] + dp[i + 1][j -1]
+                else:    
+                    dp[i][j] = dp[i][j - 1] + dp[i + 1][j -1] + dp[i -1][j - 1]
+
+            dp[height -1][j] = dp[height -2][j - 1] + dp[height -1][j - 1]
+        
+        return dp[0][width -1] % 1000000007
