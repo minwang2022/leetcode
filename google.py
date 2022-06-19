@@ -97,4 +97,60 @@ class Solution:
             if h1 * 10 + h2 < 24 and m1 * 10 + m2 < 60:
                 return f'{h1}{h2}:{m1}{m2}'
         return ''
-    
+
+# 77 · Longest Common Subsequence
+# Description
+# Given two strings, find the longest common subsequence (LCS).
+
+# Your code should return the length of LCS.
+
+# Contact me on wechat to get Amazon、Google requent Interview questions . (wechat id : jiuzhang0607)
+
+
+# What's the definition of Longest Common Subsequence?
+
+# The longest common subsequence problem is to find the longest common subsequence in a set of sequences (usually 2). This problem is a typical computer science problem, which is the basis of file difference comparison program, and also has applications in bioinformatics.
+# http://baike.baidu.com/view/2020307.htm
+# Example
+# Example 1:
+
+# Input:
+
+# A = "ABCD"
+# B = "EDCA"
+# Output:
+
+# 1
+# Explanation:
+
+# LCS is 'A' or 'D' or 'C'
+# Example 2:
+
+# Input:
+
+# A = "ABCD"
+# B = "EACB"
+# Output:
+
+# 2
+class Solution:
+    """
+    @param a: A string
+    @param b: A string
+    @return: The length of longest common subsequence of A and B
+    """
+    def longest_common_subsequence(self, a: str, b: str) -> int:
+        # write your code here
+        n, m = len(a), len(b)
+        
+        dp = [[0] * (m + 1) for _ in range (n + 1)]
+
+        for i in range(1, n + 1):
+            for j in range(1, m + 1):
+                # print(i, j, dp)
+                if a[i - 1] == b[j-1]:
+                    dp[i][j] = dp[i - 1][j - 1] + 1
+                else:
+                    dp[i][j] = max(dp[i -1][j], dp[i][j -1])
+                # print(dp)
+        return dp[-1][-1]
