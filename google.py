@@ -278,3 +278,70 @@ class Solution:
             dp[height -1][j] = dp[height -2][j - 1] + dp[height -1][j - 1]
         
         return dp[0][width -1] % 1000000007
+
+
+# 115 · Unique Paths II
+# Description
+# Follow up for "Unique Paths":
+# A robot is located at the top-left corner of a m x nmxn grid.
+
+# The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid.
+
+# Now consider if some obstacles are added to the grids. How many unique paths would there be?
+
+# An obstacle and empty space is marked as 1 and 0 respectively in the grid.
+
+# Contact me on wechat to get Amazon、Google requent Interview questions . (wechat id : jiuzhang0607)
+
+
+# 1 \leq n \leq 1001≤n≤100
+# 1 \leq m \leq 1001≤m≤100
+
+# Example
+# Example 1:
+
+# Input:
+
+# obstacleGrid = [[0]]
+# Output:
+
+# 1
+# Explanation:
+
+# There's only one point
+
+# Example 2:
+
+# Input:
+
+# obstacleGrid = [[0,0,0],[0,1,0],[0,0,0]]
+# Output:
+
+# 2
+class Solution:
+    """
+    @param obstacle_grid: A list of lists of integers
+    @return: An integer
+    """
+    def unique_paths_with_obstacles(self, obstacle_grid: List[List[int]]) -> int:
+        # write your code here
+        n, m = len(obstacle_grid), len(obstacle_grid[0])
+
+        dp = [[0] * m for _ in range(n)]
+     
+        for i in range(n):
+            for j in range(m):
+                if obstacle_grid[i][j] == 1:
+                    dp[i][j] = 0
+                    continue 
+                if i == 0 and j == 0:
+                    dp[0][0] = 1
+                    continue
+                if i == 0:
+                    dp[i][j] = dp[i][j -1]
+                elif j == 0:
+                    dp[i][j] = dp[i - 1][j]
+                else:
+                    dp[i][j] = dp[i][j -1] + dp[i - 1][j]
+                # print(dp)
+        return dp[n - 1][m -1]
