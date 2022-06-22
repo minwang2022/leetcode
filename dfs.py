@@ -82,3 +82,43 @@ class Solution:
             return res
 
         return self.helper(n - 2, res * n)
+
+# 451 · Swap Nodes in Pairs
+# Description
+# Given a linked list, swap every two adjacent nodes and return its head.
+
+# Contact me on wechat to get Amazon、Google requent Interview questions . (wechat id : jiuzhang0607)
+
+
+# Example
+# Example 1:
+
+# Input: 1->2->3->4->null
+# Output: 2->1->4->3->null
+# Example 2:
+
+# Input: 5->null
+# Output: 5->null
+Definition of ListNode:
+class ListNode(object):
+    def __init__(self, val, next=None):
+        self.val = val
+        self.next = next
+# """
+
+class Solution:
+    """
+    @param head: a ListNode
+    @return: a ListNode
+    """
+    def swap_pairs(self, head: ListNode) -> ListNode:
+        # write your code here
+        if not head or not head.next:
+            return head
+        newHead = head.next
+
+        head.next = self.swap_pairs(newHead.next)
+
+        newHead.next = head
+
+        return newHead
