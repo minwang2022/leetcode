@@ -41,3 +41,44 @@ class Solution:
         
         self.helper(head.next, ans)
         ans.append(head.val)
+
+# 771 · Double Factorial
+# Description
+# Given a number n, return the double factorial of the number.In mathematics, the product of all the integers from 1 up to some non-negative integer n that have the same parity (odd or even) as n is called the double factorial.
+
+# Contact me on wechat to get Amazon、Google requent Interview questions . (wechat id : jiuzhang0607)
+
+
+# We guarantee that the result does not exceed long.
+# n is a positive integer
+# Example
+# Example1 :
+
+# Input: n = 5
+# Output: 15
+# Explanation:
+# 5!! = 5 * 3 * 1 = 15
+# Example2:
+
+# Input: n = 6
+# Output: 48
+# Explanation:
+# 6!! = 6 * 4 * 2 = 48
+class Solution:
+    """
+    @param n: the given number
+    @return:  the double factorial of the number
+    """
+
+    def double_factorial(self, n: int) -> int:
+        # Write your code here
+        res = 1 
+        
+ 
+        return self.helper(n, res)
+    
+    def helper(self, n, res):
+        if n <= 0:
+            return res
+
+        return self.helper(n - 2, res * n)
