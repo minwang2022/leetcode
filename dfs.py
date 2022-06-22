@@ -99,7 +99,7 @@ class Solution:
 
 # Input: 5->null
 # Output: 5->null
-Definition of ListNode:
+# Definition of ListNode:
 class ListNode(object):
     def __init__(self, val, next=None):
         self.val = val
