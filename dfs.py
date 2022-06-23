@@ -122,3 +122,87 @@ class Solution:
         newHead.next = head
 
         return newHead
+
+# 464 · Sort Integers II
+# Description
+# Given an integer array, sort it in ascending order in place. Use quick sort, merge sort, heap sort or any O(nlogn) algorithm.
+
+# Contact me on wechat to get Amazon、Google requent Interview questions . (wechat id : jiuzhang0607)
+
+
+# Example
+# Example1:
+
+# Input: [3, 2, 1, 4, 5], 
+# Output: [1, 2, 3, 4, 5].
+# Example2:
+
+# Input: [2, 3, 1], 
+# Output: [1, 2, 3].
+
+class Solution:
+    """
+    @param a: an integer array
+    @return: nothing
+    """
+    def sort_integers2(self, a: List[int]):
+        # write your code here
+        # return self.quickSort(a, 0, len(a) -1)
+        temp = [0] * len(a)
+        self.mergeSort(a, 0, len(a) - 1, temp)
+        return a
+    def mergeSort(self, a, start, end, temp):
+        if start >= end:
+            return 
+        
+        mid = (start + end )// 2
+        self.mergeSort(a, start, mid, temp)
+        self.mergeSort(a, mid + 1, end, temp)
+
+        left, right = start, mid + 1
+        idx = start
+        while left <= mid and right <= end:
+           
+            if a[left] < a[right]:
+                temp[idx] = a[left]
+                idx += 1
+                left += 1
+            else:
+                temp[idx] = a[right]
+                idx += 1
+                right += 1
+        
+        while left <= mid:
+            temp[idx] = a[left]
+            idx += 1
+            left += 1
+        while right <= end:
+            temp[idx] = a[right]
+            idx += 1
+            right += 1
+        
+        for i in range(start, end + 1):
+            a[i] = temp[i]
+
+    # def quickSort(self, a, start, end):
+    #     if start >= end:
+    #         return 
+        
+    #     left, right = start, end
+    #     mid = a[(left + right) // 2]
+
+    #     while left <= right:
+    #         while left <= right and a[left] < mid:
+    #             left += 1
+    #         while left <= right and a[right] > mid:
+    #             right -= 1
+            
+    #         if left <= right:
+    #             a[left], a[right] = a[right], a[left]
+    #             left += 1 
+    #             right -= 1
+        
+    #     self.quickSort(a, start, right)
+    #     self.quickSort(a, left, end)
+
+
