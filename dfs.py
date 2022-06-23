@@ -258,3 +258,34 @@ class Solution:
             return 0 
         
         return max(self.max_depth(root.left), self.max_depth(root.right)) + 1
+
+# 68 · Binary Tree Postorder Traversal
+# Description
+# Given a binary tree, return the postorder traversal of its nodes’ values.
+# Input:
+
+# binary tree = {1,2,3}
+# Output:
+
+# [2,3,1]
+
+class Solution:
+    """
+    @param root: A Tree
+    @return: Postorder in ArrayList which contains node values.
+    """
+    def postorder_traversal(self, root: TreeNode) -> List[int]:
+        # write your code here
+        
+        res =[]
+
+        self.helper(root, res)
+        return res 
+    
+    def helper(self, root, res):
+        if not root:
+            return res 
+        
+        self.helper(root.left,res)
+        self.helper(root.right, res)
+        res.append(root.val)
