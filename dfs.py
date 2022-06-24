@@ -410,3 +410,72 @@ class Solution:
         helper(root, target, [], 0)
 
         return res  
+
+# 376 · Binary Tree Path Sum
+# Description
+# Given a binary tree, find all paths that sum of the nodes in the path equals to a given number target.
+
+# A valid path is from root node to any of the leaf nodes.
+
+# Contact me on wechat to get Amazon、Google requent Interview questions . (wechat id : jiuzhang0607)
+
+
+# Example
+# Example 1:
+
+# Input:
+# {1,2,4,2,3}
+# 5
+# Output: [[1, 2, 2],[1, 4]]
+# Explanation:
+# The tree is look like this:
+# 	     1
+# 	    / \
+# 	   2   4
+# 	  / \
+# 	 2   3
+# For sum = 5 , it is obviously 1 + 2 + 2 = 1 + 4 = 5
+# Example 2:
+
+# Input:
+# {1,2,4,2,3}
+# 3
+# Output: []
+# Explanation:
+# The tree is look like this:
+# 	     1
+# 	    / \
+# 	   2   4
+# 	  / \
+# 	 2   3
+# Notice we need to find all paths from root node to leaf nodes.
+# 1 + 2 + 2 = 5, 1 + 2 + 3 = 6, 1 + 4 = 5 
+# There is no one satisfying it.
+
+class Solution:
+    """
+    @param root: the root of binary tree
+    @param target: An integer
+    @return: all valid paths
+             we will sort your return value in output
+    """
+    def binary_tree_path_sum(self, root: TreeNode, target: int) -> List[List[int]]:
+        # write your code here
+        res = []
+        
+        def dfs(root,target, path, l, res):
+            if not root:
+                return 
+            
+            path.append(root.val)
+            
+            if target - root.val == 0:
+                res.append(path[:])
+
+            dfs(root.left, target - root.val, path, l + 1,res )
+            dfs(root.right, target - root.val, path, l + 1, res)
+
+            path.pop()
+        
+        dfs(root, target, [], 0, res)
+        return res 
