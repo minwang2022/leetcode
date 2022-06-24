@@ -272,20 +272,81 @@ class Solution:
 class Solution:
     """
     @param root: A Tree
-    @return: Postorder in ArrayList which contains node values.
+    @return: Preorder in ArrayList which contains node values.
     """
-    def postorder_traversal(self, root: TreeNode) -> List[int]:
+    def preorder_traversal(self, root: TreeNode) -> List[int]:
         # write your code here
+        def helper(root):
+            if not root:
+                return 
+            res.append(root.val)
+            helper(root.left)
+            helper(root.right)
         
-        res =[]
+        res = []
+        helper(root)
+        return res  
 
-        self.helper(root, res)
-        return res 
-    
-    def helper(self, root, res):
-        if not root:
-            return res 
+# 1596 · Possible Bipartition
+# Description
+# Given a set of N people (numbered 1, 2, ..., N), we would like to split everyone into two groups of any size.
+
+# Each person may dislike some other people, and they should not go into the same group.
+
+# Formally, if dislikes[i] = [a, b], it means it is not allowed to put the people numbered a and b into the same group.
+
+# Return true if and only if it is possible to split everyone into two groups in this way.Otherwise, return false.
+
+# Contact me on wechat to get Amazon、Google requent Interview questions . (wechat id : jiuzhang0607)
+
+
+# 1 <= N <= 2000
+# 0 <= dislikes.length <= 10000
+# 1 <= dislikes[i][j] <= N
+# dislikes[i][0] < dislikes[i][1]
+# There does not exist i != j for which dislikes[i] == dislikes[j].
+
+# Example
+# Example 1:
+
+# Input: N = 4, dislikes = [[1,2],[1,3],[2,4]]
+# Output: true
+# Explanation: group1 [1,4], group2 [2,3]
+# Example 2:
+
+# Input: N = 3, dislikes = [[1,2],[1,3],[2,3]]
+# Output: false
+# Example 3:
+
+# Input: N = 5, dislikes = [[1,2],[2,3],[3,4],[4,5],[1,5]]
+# Output: false
+
+class Solution:
+    """
+    @param n:  sum of the set
+    @param dislikes: dislikes peoples
+    @return:  if it is possible to split everyone into two groups in this way
+    """
+    def possible_bipartition(self, n: int, dislikes: List[List[int]]) -> bool:
+        # Write your code here.
+        graph = collections.defaultdict(list)
+        for u, v in dislikes:
+            graph[u].append(v)
+            graph[v].append(u)
+
+        color = {}
+        def dfs(node, c = 0):
+            if node in color:
+                return color[node] == c
+            color[node] = c
+            for nei in graph[node]:
+                if not dfs(nei, c ^ 1):
+                    return False 
+            return True  
+
+        for node in range(1, n+1):
+            if node not in color and not dfs(node):
+                return False 
         
-        self.helper(root.left,res)
-        self.helper(root.right, res)
-        res.append(root.val)
+        return True 
+        
