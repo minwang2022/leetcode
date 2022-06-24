@@ -350,3 +350,63 @@ class Solution:
         
         return True 
         
+# 246 · Binary Tree Path Sum II
+# Description
+# Given a binary tree and a target value, design an algorithm to find all paths in the binary tree that sum to that target value. The path can start and end at any node, but it needs to be a route that goes all the way down. That is, the hierarchy of nodes on the path is incremented one by one.
+
+# Contact me on wechat to get Amazon、Google requent Interview questions . (wechat id : jiuzhang0607)
+
+
+# Example
+# Example 1:
+
+# Input:
+# {1,2,3,4,#,2}
+# 6
+# Output:
+# [[2, 4],[1, 3, 2]]
+# Explanation:
+# The binary tree is like this:
+#     1
+#    / \
+#   2   3
+#  /   /
+# 4   2
+# for target 6, it is obvious 2 + 4 = 6 and 1 + 3 + 2 = 6.
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+"""
+
+class Solution:
+    """
+    @param root: the root of binary tree
+    @param target: An integer
+    @return: all valid paths
+             we will sort your return value in output
+    # """
+    def binary_tree_path_sum2(self, root: TreeNode, target: int) -> List[List[int]]:
+        # write your code here
+        res = []
+        
+        def helper(root, target, path, length):
+            if not root:
+                return 
+            path.append(root.val)
+            temp = target
+            for i in range(length, -1, -1):
+                temp -= path[i]
+                if temp == 0:
+                    res.append(path[i:])
+                
+            helper(root.left, target, path, length + 1 )
+            helper(root.right, target, path, length + 1 )
+            path.pop()
+            
+                
+        helper(root, target, [], 0)
+
+        return res  
