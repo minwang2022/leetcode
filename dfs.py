@@ -479,3 +479,61 @@ class Solution:
         
         dfs(root, target, [], 0, res)
         return res 
+
+# 94 · Binary Tree Maximum Path Sum
+
+# Description
+# Given a binary tree, find the maximum path sum.
+# The path may start and end at any node in the tree.
+# (Path sum is the sum of the weights of nodes on the path between two nodes.)
+
+# Contact me on wechat to get Amazon、Google requent Interview questions . (wechat id : jiuzhang0607)
+
+
+# About the tree representation
+
+# Example
+# Example 1:
+
+# Input:
+
+# tree = {2}
+# Output:
+
+# 2
+# Explanation:
+
+# There is only one node 2
+# Example 2:
+
+# Input:
+
+# tree = {1,2,3}
+# Output:
+
+# 6
+class Solution:
+    """
+    @param root: The root of binary tree.
+    @return: An integer
+    """
+
+    def max_path_sum(self, root: TreeNode) -> int:
+        # write your code here
+        max_num = [float("-inf")]
+        def dfs(root):
+            if not root:
+                return 0 
+            left = max(dfs(root.left), 0)
+            right = max(dfs(root.right), 0)
+
+            max_num[0] = max(max_num[0], left + right + root.val)
+
+            return max(root.val + left, root.val + right)
+
+        
+        dfs(root)
+
+        return max_num[0]
+
+    
