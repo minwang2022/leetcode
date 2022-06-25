@@ -610,3 +610,41 @@ class Solution:
         root.left = self.build_tree(preorder[1:rootPos + 1], inorder[:rootPos])
         root.right = self.build_tree(preorder[rootPos + 1:], inorder[rootPos + 1:])
         return root
+
+#22 · Flatten List
+# Description
+# Given a list, each element in the list can be a list or an integer.Flatten it into a simply list with integers.
+
+# Contact me on wechat to get Amazon、Google requent Interview questions . (wechat id : jiuzhang0607)
+
+
+# If the element in the given list is a list, it can contain list too.
+
+# Example
+# Example 1:
+
+# Input:
+
+# list = [[1,1],2,[1,1]]
+# Output:
+
+# [1,1,2,1,1]
+# Explanation:
+
+# Flatten it into a simply list with integers.
+
+class Solution(object):
+
+    # @param nestedList a list, each element in the list 
+    # can be a list or integer, for example [1,2,[1,2]]
+    # @return {int[]} a list of integer
+    def flatten(self, nestedList):
+        # Write your code here
+        res = []
+
+        for i in range(len(nestedList)):
+            if isinstance(nestedList[i], int):
+                res.append(nestedList[i])
+            else:
+                res.extend(self.flatten(nestedList[i]))
+        return res 
