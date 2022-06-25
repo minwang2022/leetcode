@@ -536,4 +536,59 @@ class Solution:
 
         return max_num[0]
 
-    
+# 72 · Construct Binary Tree from Inorder and Postorder Traversal
+# Description
+# Given inorder and postorder traversal of a tree, construct the binary tree.
+
+# Contact me on wechat to get Amazon、Google requent Interview questions . (wechat id : jiuzhang0607)
+
+
+# You may assume that duplicates do not exist in the tree.
+
+# Example
+# Example 1:
+
+# Input:
+
+# inorder traversal = []
+# postorder traversal = []
+# Output:
+
+# {}
+# Explanation:
+
+# Binary tree is empty
+
+# Example 2:
+
+# Input:
+
+# inorder traversal = [1,2,3]
+# postorder traversal = [1,3,2]
+# Output:
+
+# {2,1,3}
+
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+"""
+
+class Solution:
+    """
+    @param inorder: A list of integers that inorder traversal of a tree
+    @param postorder: A list of integers that postorder traversal of a tree
+    @return: Root of a tree
+    """
+    def build_tree(self, inorder: List[int], postorder: List[int]) -> TreeNode:
+        # write your code here
+        if not inorder: return None 
+        root = TreeNode(postorder[-1])
+        rootIndex = inorder.index(postorder[-1])
+
+        root.left = self.build_tree(inorder[:rootIndex], postorder[:rootIndex])
+        root.right = self.build_tree(inorder[rootIndex + 1:], postorder[rootIndex:-1])
+        return root
