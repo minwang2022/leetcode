@@ -648,3 +648,68 @@ class Solution(object):
             else:
                 res.extend(self.flatten(nestedList[i]))
         return res 
+
+# 10 · String Permutation II
+# Description
+# Given a string, find all permutations of it without duplicates.
+
+# Contact me on wechat to get Amazon、Google requent Interview questions . (wechat id : jiuzhang0607)
+
+
+# Example
+# Example 1:
+
+# Input:
+
+# s = "abb"
+# Output:
+
+# ["abb", "bab", "bba"]
+# Explanation:
+
+# There are six kinds of full arrangement of abb, among which there are three kinds after removing duplicates.
+
+# Example 2:
+
+# Input:
+
+# s = "aabb"
+# Output:
+
+# ["aabb", "abab", "baba", "bbaa", "abba", "baab"]
+
+class Solution:
+    """
+    @param str: A string
+    @return: all permutations
+             we will sort your return value in output
+    """
+    def string_permutation2(self, str: str) -> List[str]:
+        # write your code here
+
+        def dfs(chars, path):
+            if len(chars) == len(path):
+                res.append("".join(path))
+                return  
+            n = len(chars)
+            
+            for i in range(n):
+                if visited[i]:
+                    continue
+                if i > 0 and chars[i] == chars[i - 1] and not visited[i - 1]:
+                    continue
+                
+                path.append(chars[i])
+                visited[i] = True
+
+                dfs(chars, path)
+
+                path.pop()
+                visited[i] = False
+
+        res = []
+        chars = sorted(list(str))
+        visited = [False] * len(chars)
+
+        dfs(chars, [])
+        return res
