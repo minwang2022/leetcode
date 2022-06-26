@@ -713,3 +713,52 @@ class Solution:
 
         dfs(chars, [])
         return res
+   
+   
+#    371 · Print Numbers by Recursion
+# Description
+# Print numbers from 1 to the largest number with N digits by recursion.
+
+# Contact me on wechat to get Amazon、Google requent Interview questions . (wechat id : jiuzhang0607)
+
+
+# It's pretty easy to do recursion like:
+
+# recursion(i) {
+#     if i > largest number:
+#         return
+#     results.add(i)
+#     recursion(i + 1)
+# }
+# however this cost a lot of recursion memory as the recursion depth maybe very large. Can you do it in another way to recursive with at most N depth?
+
+# Example
+# Example 1:
+
+# Input : N = 1 
+# Output :[1,2,3,4,5,6,7,8,9]
+# Example 2:
+
+# Input : N = 2 
+# Output :[1,2,3,4,5,6,7,8,9,10,11,12,...,99]
+
+class Solution:
+    """
+    @param n: An integer
+    @return: An array storing 1 to the largest number with n digits.
+    """
+    def numbers_by_recursion(self, n: int) -> List[int]:
+        # write your code here
+
+        res = []
+        
+        def dfs(n, idx):
+            if idx >=  n:
+                return 
+            
+            for i in range(10 ** idx, 10 ** (idx + 1)):
+                res.append(i)
+            dfs(n, idx + 1)
+        
+        dfs(n, 0)
+        return res
