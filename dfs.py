@@ -762,3 +762,50 @@ class Solution:
         
         dfs(n, 0)
         return res
+
+# 135 · Combination Sum
+# Description
+# Given a set of candidate numbers candidates and a target number target. Find all unique combinations in candidates where the numbers sums to target.
+
+# The same repeated number may be chosen from candidates unlimited number of times.
+
+# Contact me on wechat to get Amazon、Google requent Interview questions . (wechat id : jiuzhang0607)
+
+
+# All numbers (including target) will be positive integers.
+# Numbers in a combination a1, a2, … , ak must be in non-descending order. (ie, a1 ≤ a2 ≤ … ≤ ak)
+# Different combinations can be in any order.
+# The solution set must not contain duplicate combinations.
+# Example
+# Example 1:
+
+# Input: candidates = [2, 3, 6, 7], target = 7
+# Output: [[7], [2, 2, 3]]
+# Example 2:
+
+# Input: candidates = [1], target = 3
+# Output: [[1, 1, 1]]
+class Solution:
+    """
+    @param candidates: A list of integers
+    @param target: An integer
+    @return: A list of lists of integers
+             we will sort your return value in output
+    """
+    def combination_sum(self, candidates: List[int], target: int) -> List[List[int]]:
+        # write your code here
+        combinations = []
+        newCandidates = sorted(list(set(candidates)))
+        def dfs(newCandidates,target, start, combination):
+            if target < 0:
+                return 
+            if target == 0:
+                return combinations.append(combination[:])
+
+            for i in range(start, len(newCandidates)):
+                combination.append(newCandidates[i])
+                dfs(newCandidates, target - newCandidates[i], i, combination)
+                combination.pop() 
+        
+        dfs(newCandidates, target, 0, [])
+        return combinations
