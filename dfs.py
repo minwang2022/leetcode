@@ -937,3 +937,51 @@ class Solution:
             row = ['Q' if j == cols[i] else '.' for j in range(n)]
             board.append(''.join(row))
         return board
+
+# 17 · Subsets
+# Description
+# Given a set with distinct integers, return all possible subsets.
+
+# Contact me on wechat to get Amazon、Google requent Interview questions . (wechat id : jiuzhang0607)
+
+
+# Elements in a subset must be in non-descending order.
+# The solution set must not contain duplicate subsets.
+# Example
+# Example 1:
+
+# Input:
+
+# nums = [0] 
+# Output:
+
+# [ 
+#   [], 
+#   [0] 
+# ] 
+
+
+
+class Solution:
+    """
+    @param nums: A set of numbers
+    @return: A list of lists
+             we will sort your return value in output
+    """
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        # write your code here
+        
+
+        def dfs(nums, idx, path, res):
+ 
+            res.append(path[:])
+
+            for i in range(idx, len(nums)):
+                path.append(nums[i])
+                dfs(nums, i + 1, path, res)
+                path.pop()
+                
+        nums = sorted(nums)
+        res = []
+        dfs(nums, 0, [], res)
+        return res  
