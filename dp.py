@@ -256,3 +256,56 @@ def rollTheString(s, roll):
         result += a_to_z[index]
 
     return result
+
+
+# 92 · Backpack
+# Description
+# Given n items with size A_{i}A 
+# i
+# ​
+#   an integer m denotes the size of a backpack. How full you can fill this backpack?
+# (Each item can only be selected once and the size of the item is a positive integer)
+
+# Contact me on wechat to get Amazon、Google requent Interview questions . (wechat id : jiuzhang0607)
+
+
+# You can not divide any item into small pieces.
+# n \lt 1000n<1000
+# m \lt 1e9m<1e9
+# Example
+# Example 1:
+
+# Input:
+
+# array = [3,4,8,5]
+# backpack size = 10
+# Output:
+# 9
+
+class Solution:
+    """
+    @param m: An integer m denotes the size of a backpack
+    @param a: Given n items with size A[i]
+    @return: The maximum size
+    """
+    def back_pack(self, m: int, A: List[int]) -> int:
+        # write your code here
+
+        n = len(A)
+        dp = [[False]* (m + 1) for _ in range(n+1)]
+
+        dp[0][0] = True 
+
+        for i in range(1, n + 1):
+            dp[i][0] = True 
+            for j in range(1, m + 1):
+                if j >= A[i - 1]:
+                    dp[i][j] = dp[i - 1][j] or dp[i - 1][j - A[i - 1]]
+                else:
+                    dp[i][j] = dp[i - 1][j]
+
+        for i in range(m, -1, -1):
+            if dp[n][i]:
+                return i
+        
+        return -1 

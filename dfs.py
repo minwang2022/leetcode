@@ -984,4 +984,4 @@ class Solution:
         nums = sorted(nums)
         res = []
         dfs(nums, 0, [], res)
-        return res  
+        return res      
