@@ -36,12 +36,12 @@ each element of array A is an integer within the range [0..200,000].
 */ 
 
 function MaxProfit(A) {
-    let max = A[0], left = A[0]
-    for(let num of A){
-        if (num > left) {
-            max = Math.max(max, num - left)
+    let max = A[0], left = 0
+    for(let right = 0; right < A.length; right++){
+        if (A[right] > A[left]) {
+            max = Math.max(max, A[right] - A[left])
         }else {
-            left = right
+            left = right 
         }
     }
     return max
@@ -49,6 +49,7 @@ function MaxProfit(A) {
 
 a1 = [0]
 a2 = []
-a3 = [1,2,3,4,5,6]
+a3 = [1,2,7,4,5,6]
 
-console.log(MaxProfit(a1))
+console.log(MaxProfit(a3))
+
