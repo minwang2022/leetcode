@@ -1274,3 +1274,6 @@ class Solution:
                     dp[i] = dp[j]+[nums[i]]
     
         return max(dp, key=len)
+
+
+

@@ -96,3 +96,62 @@ def isValid( n, i, j):
     if not (0 <= i < n and 0 <= j < n):
         return False
     return True 
+
+
+
+# Given the root of a complete binary tree, return the number of the nodes in the tree.
+# According to Wikipedia, every level, except possibly the last, is completely filled in a complete binary tree, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.
+
+# 		1
+# 	2		3
+# 4		5 6		7
+# 8	9	10 	11
+
+
+
+Input: root = [1,2,3,4,5,6]
+Output: 6
+Input: root = []
+Output: 0
+Input: root = [1]
+Output: 1
+def findNumNodes( root):
+	if  not root: 
+		return 0
+	left  = findnumnodes(root.left)
+	Right = findnumnodes(root.right)
+	
+	return left + right + 1
+
+def findNumNodes( root):
+	leftPointer, rightPointer, leftHeight, rightHeight = root,left, root.right, 1, 1
+	
+	return left
+
+
+    # let leftPointer = root.left
+    # let leftHeight = 1
+    # let rightPointer = root.right
+    # let rightHeight = 1
+
+    # while (leftPointer !== null) {
+        
+    #     leftHeight++
+    #     leftPointer = leftPointer.left
+        
+        
+    # }
+    
+    # while (rightPointer !== null) {
+        
+    #     rightHeight++
+    #     rightPointer = rightPointer.right
+        
+    # }
+
+    # if (leftHeight === rightHeight) {
+    #     return 2 ** leftHeight - 1
+    # }
+    
+    # return 1 + findNumNodes(root.left) + findNumNodes(root.right)
+

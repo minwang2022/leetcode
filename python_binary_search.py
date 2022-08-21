@@ -657,4 +657,70 @@ class Solution:
         return count <= m
 
 
-            
+# // Given an array of arrays where the inner array represents a server's uptime. Each element representing 1 hr.
+
+# // Server will always start true or reset true.
+
+# // Return an array of arrays where the inner arrays has server uptime ratio.
+
+# // eg
+
+# // input: [ [true, true, true, false, false, false], [true, false], [true, true, false] ]
+# // output: [ [0.50], [0.50], [0.67] ]
+
+# [ [ true, true, false ] ]
+
+# def findRatio(arr):
+# 	res = []
+# 	For i in range(len(arr)):
+# 		binarySearch(arr[i], res)
+# return res
+
+
+# def binarySearch(subarr, res):
+# 	n= len(subarr) - 1 
+# start , end = 0, n			#0, 2
+# While start + 1 < end:			#0, < 2
+# 	Mid = (start + end) // 2	#  1 + 2 // 2 
+# 	If subarr[mid] == False:	# 
+# 		End = mid
+# 		else :				# start = 1
+# 			start  = mid + 1
+# 	Idx = 0
+# #	If subarr[start] == False:
+# 		Idx = start 
+		
+# 	Else:
+# 		Idx =  end
+# 	res.append( idx / len(subarr))
+
+    def find_cheapest_price(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+
+        def build_graph():
+            graph = defaultdict(list)
+            for flight in flights:
+                start, end, price = flight[0], flight[1], flight[2]
+                graph[start].append((end, price))
+            return graph
+
+        graph = build_graph()
+        q = deque([src])
+        visited = {src: 0}
+        ans, time = float('inf'), -1
+        while q:
+            if time > k:
+                break
+            for _ in range(len(q)):
+                now = q.popleft()
+                if now == dst and time <= k:
+                    ans = min(ans, visited[now])
+                for neighbor, price in graph[now]:
+                    if neighbor in visited and visited[now] + price >= visited[neighbor]:
+                        continue
+                    if not neighbor in q:
+                        q.append(neighbor)
+                    if time + 1 <= k:
+                        visited[neighbor] = min(visited.get(neighbor, float('inf')), visited[now] + price)
+            time += 1
+
+        return -1 if ans == float('inf') else ans
