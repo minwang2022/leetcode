@@ -84,8 +84,10 @@ function MaxSliceSum(A) {
   let max = A[0], sum = 0 
   for(let num of A) {
     sum += num
-    max = Math.max(max, sum);
-    if(sum < num) sum = num;
+    // max = Math.max(max, sum);
+    // if(sum < num) sum = num;
+    if(sum < 0) sum = 0;
+    max = Math.max(max, sum)
     
   }
   return max
@@ -93,3 +95,88 @@ function MaxSliceSum(A) {
 
 a = [3,2,-6,4,0]
 console.log(MaxSliceSum(a))
+
+
+/*
+MaxDoubleSliceSum
+A non-empty array A consisting of N integers is given.
+
+A triplet (X, Y, Z), such that 0 ≤ X < Y < Z < N, is called a double slice.
+
+The sum of double slice (X, Y, Z) is the total of A[X + 1] + A[X + 2] + ... + A[Y − 1] + A[Y + 1] + A[Y + 2] + ... + A[Z − 1].
+
+For example, array A such that:
+
+    A[0] = 3
+    A[1] = 2
+    A[2] = 6
+    A[3] = -1
+    A[4] = 4
+    A[5] = 5
+    A[6] = -1
+    A[7] = 2
+contains the following example double slices:
+
+double slice (0, 3, 6), sum is 2 + 6 + 4 + 5 = 17,
+double slice (0, 3, 7), sum is 2 + 6 + 4 + 5 − 1 = 16,
+double slice (3, 4, 5), sum is 0.
+The goal is to find the maximal sum of any double slice.
+
+Write a function:
+
+class Solution { public int solution(int[] A); }
+
+that, given a non-empty array A consisting of N integers, returns the maximal sum of any double slice.
+
+For example, given:
+
+    A[0] = 3
+    A[1] = 2
+    A[2] = 6
+    A[3] = -1
+    A[4] = 4
+    A[5] = 5
+    A[6] = -1
+    A[7] = 2
+the function should return 17, because no double slice of array A has a sum of greater than 17.
+
+Write an efficient algorithm for the following assumptions:
+
+N is an integer within the range [3..100,000];
+each element of array A is an integer within the range [−10,000..10,000].
+*/
+
+function MaxDoubleSliceSum(A) {
+
+  // write your code in JavaScript (Node.js 8.9.4)
+  let left_to_right = new Array(A.length).fill(0), 
+      right_to_left = new Array(A.length).fill(0), 
+      max = 0
+  let max_left = 0, max_right = 0;
+
+  for(let i = 1; i < A.length -1; i++){
+      max_left += A[i]
+      if(max_left < 0) max_left = 0;
+      left_to_right[i] = max_left
+  }
+
+  for(let i = A.length -2; i > 0; i--){
+      max_right += A[i]
+      if(max_right < 0) max_right = 0;
+      right_to_left[i] = max_right;
+  }
+
+  // console.log(left_to_right)
+  // console.log(right_to_left)
+  
+  for(let i = 0; i < A.length - 2; i ++){
+      max = Math.max(max, left_to_right[i] + right_to_left[i + 2]);
+
+  }
+
+  return max
+
+}
+a = [3,2,6,-1,4,5,-1,2]  //ans: 17
+
+console.log(MaxDoubleSliceSum(a))
