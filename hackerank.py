@@ -1,157 +1,124 @@
 
-# Website Pagnation 
-# Complete the 'fetchItemsToDisplay' function below.
-#
-# The function is expected to return a STRING_ARRAY.
-# The function accepts following parameters:
-#  1. 2D_STRING_ARRAY items
-#  2. INTEGER sortParameter
-#  3. INTEGER sortOrder
-#  4. INTEGER itemsPerPage
-#  5. INTEGER pageNumber
-#
+#You have just arrived in a new city and would like to see its sights. Each sight is located in a square and you have assigned each a beauty value. Each road to a square takes an amount of time to travel, and you have limited time for sightseeing. Detemine the maximum value of beauty that you can visit during your time in the city. Start and finish at your hotel, the location of sight zero.
+# Constraints
 
-def fetchItemsToDisplay(items, sortParameter, sortOrder, itemsPerPage, pageNumber):
+# 1 <= n <= 1000
+# 1 <= m <= 2000
+# 10 <= max_t <= 100
+# 0 <= u[i], v[i] <= n-1
+# u[i] != v[i]
+# 10 <= t[i] <= 100
+# 0 <= beauty[i] <= 10^8
+# No more than 4 roads connect a single square with others
+# Two roads can be connected by at most 1 road
+# Example
+
+# n = 4
+# m = 3
+# max_t = 30
+# beauty = [5, 10, 15, 20]
+# u = [0, 1, 0]
+# v = [1, 2, 3]
+# t = [6, 7, 10]
+
+# Output
+# 43
+
+# Explanation : 0 -> 3 -> 0
+
+from collections import defaultdict
+def findBestPath(n, m, max_t, beauty, u, v, t):
+    def prepare_graph():
+        graph = defaultdict(list)
+        for i in range(len(u)):
+            graph[u[i]].append([v[i], t[i]])
+            graph[v[i]].append([u[i], t[i]])
+        return graph
+
+    def dfs_helper(node, curr_val, curr_time, visited):
+        if curr_time > max_t:
+            return
+
+        if node == 0:
+            max_beaty[0] = max(max_beaty[0], curr_val)
+
+        for nei in graph[node]:
+            new_node, new_node_time = nei[0], nei[1]
+
+            new_node_val = beauty[new_node]
+
+            if new_node in visited:
+                new_node_val = 0
+
+            dfs_helper(new_node, curr_val + new_node_val, curr_time + new_node_time, visited | set([new_node]))
+
+    max_beaty = [float('-inf')]
+    graph = prepare_graph()
+
+    dfs_helper(0, beauty[0], 0, set([0]))
+
+    return max_beaty[0]
+
+
+
+
+#degree of an array 
+#degree of array, find shortest length
+# 5    →   arr[] size n = 5
+# 1    →   arr = [1, 2, 2, 3, 1]
+
+# 2 options for items with highest degree
+# [1, 2, 2, 3, 1], [2, 2]
+
+#output -> 2 [2, 2]
+
+import collections
+def degreeOfArray(arr):
     # Write your code here
-    a = sorted(items, key=lambda item: int(item[sortParameter]) if sortParameter else item[sortParameter], reverse=sortOrder)
-    print(a)
-    n = len(a)  
-    count = 0
-    res = []
-    idx = itemsPerPage * pageNumber 
-    while count < itemsPerPage and idx < n:
-        res.append(a[idx][0])
-        idx += 1
-        count += 1
+    degrees = collections.Counter(arr)
+    max_degree = degrees.most_common(1)[-1][-1]
+    nums = []
+    for num, degree in degrees.items():
+        if degree == max_degree:
+            nums.append(num)
+      
+    min_len = float("inf")
+    for item in nums:
+        min_len = min(min_len, find_length(item, arr))
+    
+    return min_len
+
+def find_length(num, arr):
+    left = arr.index(num)
+    right = len(arr) - arr[::-1].index(num)
+
+
+#array reduction
+
+# STDIN    Function
+# -----    --------
+# 3    →   num[] size n = 3
+# 1    →   num = [1, 2, 3]
+# outpu 9
+
+# STDIN    Function
+# -----    --------
+# 4    →   num[] size n = 4
+# 1    →   num = [1, 2, 3, 4]
+# outpu 19
+import heapq
+def reductionCost(num):
+    # Write your code here
+    heap = num
+    heapq.heapify(heap)
+    
+    res = 0 
+    while heap:
+        cur = 0 
+        for _ in range(2):
+            if heap:
+                cur += heapq.heappop(heap)
+        if heap:       
+            heapq.heappush(heap, cur)
+        res += cur
     return res
-
-
-#order check 
-# Complete the 'countStudents' function below.
-#
-# The function is expected to return an INTEGER.
-# The function accepts INTEGER_ARRAY height as parameter.
-#
-
-def countStudents(height):
-    # Write your code here
-    sorted_height = sorted(height)
-    count = 0 
-    for i in range(len(height)):
-        if height[i] != sorted_height[i]:
-            count += 1
-    
-    return count
-
-#array game
-
-# Complete the 'countMoves' function below.
-#
-# The function is expected to return a LONG_INTEGER.
-# The function accepts INTEGER_ARRAY numbers as parameter.
-#
-
-def countMoves(numbers):
-    # Write your code here
-    return sum(numbers) - (len(numbers) * min(numbers))
-
-# number of moves  (knight move from start position to end position)
-
-# Complete the 'minMoves' function below.
-#
-# The function is expected to return an INTEGER.
-# The function accepts following parameters:
-#  1. INTEGER n
-#  2. INTEGER startRow
-#  3. INTEGER startCol
-#  4. INTEGER endRow
-#  5. INTEGER endCol
-#
-import collections 
-DIRECTIONS = [(-2, -1), (-2, 1), (-1, 2), (1, 2),
-                (2, 1), (2, -1), (1, -2), (-1, -2)]
-def minMoves(n, startRow, startCol, endRow, endCol):
-    # Write your code here
-    que = collections.deque([(startRow, startCol)])
-    distance = {(startRow, startCol): 0}
-    
-    while que:
-        x, y = que.popleft()
-        print((x, y))
-        if (x,y) == (endRow, endCol):
-            return distance[(x, y)]
-        
-        for delta_x, delta_y in DIRECTIONS:
-            new_x, new_y = x + delta_x, y + delta_y
-            if not isValid(n,new_x,new_y):
-                continue 
-            if (new_x, new_y) in distance:
-                continue 
-            que.append((new_x, new_y))
-            
-            distance[(new_x, new_y)] = distance[(x,y)] + 1
-    return -1       
-def isValid( n, i, j):
-    
-    if not (0 <= i < n and 0 <= j < n):
-        return False
-    return True 
-
-
-
-# Given the root of a complete binary tree, return the number of the nodes in the tree.
-# According to Wikipedia, every level, except possibly the last, is completely filled in a complete binary tree, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.
-
-# 		1
-# 	2		3
-# 4		5 6		7
-# 8	9	10 	11
-
-
-
-Input: root = [1,2,3,4,5,6]
-Output: 6
-Input: root = []
-Output: 0
-Input: root = [1]
-Output: 1
-def findNumNodes( root):
-	if  not root: 
-		return 0
-	left  = findnumnodes(root.left)
-	Right = findnumnodes(root.right)
-	
-	return left + right + 1
-
-def findNumNodes( root):
-	leftPointer, rightPointer, leftHeight, rightHeight = root,left, root.right, 1, 1
-	
-	return left
-
-
-    # let leftPointer = root.left
-    # let leftHeight = 1
-    # let rightPointer = root.right
-    # let rightHeight = 1
-
-    # while (leftPointer !== null) {
-        
-    #     leftHeight++
-    #     leftPointer = leftPointer.left
-        
-        
-    # }
-    
-    # while (rightPointer !== null) {
-        
-    #     rightHeight++
-    #     rightPointer = rightPointer.right
-        
-    # }
-
-    # if (leftHeight === rightHeight) {
-    #     return 2 ** leftHeight - 1
-    # }
-    
-    # return 1 + findNumNodes(root.left) + findNumNodes(root.right)
-
